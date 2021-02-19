@@ -227,7 +227,7 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
 // set progress from 20 to 100 with anim in 2500ms
 
 
-
+//test comment
 
         permissionsToRequest = findUnAskedPermissions(permissions);
         //getImages();
