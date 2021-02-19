@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/headermsgId"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:padding="5dp"
+
+        android:background="@color/colorPrimary">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+
+            android:background="@drawable/rightcheck"
+            android:layout_marginLeft="117dp"
+            android:layout_above="@+id/textView2"
+            android:layout_alignLeft="@+id/textView2"
+            android:layout_alignStart="@+id/textView2"
+            android:layout_marginStart="117dp" />
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:layout_marginLeft="5dp"
+
+            android:layout_centerInParent="true"
+            android:text="Pass Generated Successfully"
+            android:id="@+id/textView2" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/headermsgId">
+
+        <TextView
+            android:id="@+id/instId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="IN/OUT QRCode"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_marginTop="25dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <ImageView
+            android:id="@+id/timgId"
+            android:layout_width="200dp"
+            android:layout_height="190dp"
+            android:layout_centerInParent="true"
+            android:elevation="10dp"
+            android:layout_marginTop="20dp" />
+        <TextView
+            android:id="@+id/uniqueId"
+            android:layout_width="match_parent"
+            android:text="1234"
+            android:layout_marginTop="140dp"
+            android:textSize="30dp"
+            android:textColor="@color/green_new"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:layout_below="@+id/timgId"
+            android:layout_height="wrap_content"></TextView>
+        <LinearLayout
+            android:layout_below="@+id/uniqueId"
+            android:layout_width="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_height="wrap_content">
+
+        <ImageView
+
+            android:id="@+id/shareId"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
+
+            android:background="@drawable/share"
+
+             />
+
+            <ImageView
+
+                android:id="@+id/msgCodeId"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center_horizontal"
+
+                android:background="@drawable/smsicon"
+
+                />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</RelativeLayout>

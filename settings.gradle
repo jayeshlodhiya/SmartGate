@@ -1,0 +1,1 @@
+include ':app', ':library-release', ':randomtextview-release', ':rippleview-release', ':dlib-release', ':libraryrelease', ':customersdk-debug(intentv24)'

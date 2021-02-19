@@ -1,0 +1,107 @@
+package com.payphi.visitorsregister;
+
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
+import com.payphi.visitorsregister.model.User;
+import com.payphi.visitorsregister.utils.SharedPrefManager;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
+public class User_Profile extends AppCompatActivity {
+  //dfgdfgffh
+  CircleImageView imageView;
+    ImageView backarrow;
+    TextView name, email, mobileNo, flatno, work;
+    String PREF_NAME = "sosessionPref";
+    int PRIVATE_MODE = 0;
+    String socityCode = "";
+
+    SharedPreferences sharedPreferences;
+    SharedPrefManager sharedPrefManager;
+
+    User user;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.user_profile_layout);
+        sharedPrefManager = new SharedPrefManager(this);
+        sharedPreferences = getApplicationContext().getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+        imageView = (CircleImageView) findViewById(R.id.profileImageid);
+        email = (TextView) findViewById(R.id.idprofileemailId);
+        mobileNo = (TextView) findViewById(R.id.profilephid);
+        name = (TextView) findViewById(R.id.profile_name);
+        flatno = (TextView) findViewById(R.id.flatnumberid);
+        work = (TextView) findViewById(R.id.workid);
+        backarrow = (ImageView) findViewById(R.id.backid);
+        GetUserData();
+
+    }
+
+    private void GetUserData() {
+        socityCode = sharedPreferences.getString("SOC_CODE", null); //sharedPrefManager.getSocityCode();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference docRef = db.collection(socityCode).document("UserDoc").collection("Sousers");
+        docRef.whereEqualTo("Email", sharedPrefManager.getUserEmail()).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            //   docRef.addOnCompleteListener(getActivity(),new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                int size = documentSnapshots.getDocuments().size();
+                System.out.println("Documents size=" + size);
+                for (DocumentSnapshot documentSnapshot : documentSnapshots.getDocuments()) {
+                    //System.out.println("Documents data==="+documentSnapshot.getData().toString());
+                    SaveUserData(documentSnapshot);
+                    //            UpdateDeviceId();
+                }
+            }
+        });
+    }
+
+    private void SaveUserData(DocumentSnapshot documentSnapshot) {
+        user = new User();
+        user.setFlatNo(documentSnapshot.getString("FlatNumber"));
+        user.setMobileNumber(documentSnapshot.getString("MobileNumber"));
+        user.setRole(documentSnapshot.getString("Role"));
+        user.setFullName(documentSnapshot.getString("Name"));
+        user.setDocId(documentSnapshot.getString("DocId"));
+        user.setPhoto(documentSnapshot.getString("Photo"));
+        user.setEmail(documentSnapshot.getString("Email"));
+        user.setWork(documentSnapshot.getString("Work"));
+
+        SharedPreferences.Editor prefsEditor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(user);
+        prefsEditor.putString("UserObj", json);
+        prefsEditor.commit();
+
+        SetProfile();
+
+    }
+
+    private void SetProfile() {
+        Glide.with(this)
+                .load(user.getPhoto())
+                .into(imageView);
+        email.setText(user.getEmail());
+        mobileNo.setText(user.getMobileNumber());
+        name.setText(user.getFullName());
+        flatno.setText(user.getFlatNo());
+        work.setText(user.getWork());
+    }
+
+    public void finishAcitvity(View view) {
+        this.finish();
+    }
+}

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RadarScanView"><attr format="color" name="circleColor"/><attr format="color" name="radarColor"/><attr format="color" name="tailColor"/></declare-styleable>
+    <!-- From: file:/D:/My%20project/RadarScanView-master/RadarScanView/library/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="app_name">library</string>
+</resources>

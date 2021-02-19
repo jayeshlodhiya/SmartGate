@@ -1,0 +1,299 @@
+package com.payphi.visitorsregister.FirebaseNotification;
+
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
+import android.text.format.DateUtils;
+import android.util.Base64;
+import android.util.Log;
+import android.widget.RemoteViews;
+
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
+import com.payphi.visitorsregister.Calling;
+import com.payphi.visitorsregister.MainActivity;
+import com.payphi.visitorsregister.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+/**
+ * Created by swapnil.g on 6/10/2017.
+ */
+
+
+/**
+ * Created by Ravi Tamada on 08/08/16.
+ * www.androidhive.info
+ */
+public class MyFirebaseMessagingService extends FirebaseMessagingService {
+
+    private static final String TAG = MyFirebaseMessagingService.class.getSimpleName();
+
+    private NotificationUtils notificationUtils;
+        String body="";
+       String imageStringFromVisitNumber="";
+    private String base64String = "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";
+
+    @Override
+    public void onMessageReceived(RemoteMessage remoteMessage) {
+        Log.e(TAG, "From: " + remoteMessage.getFrom());
+
+        if (remoteMessage == null)
+            return;
+
+        // Check if message contains a notification payload.
+        if (remoteMessage.getNotification() != null) {
+            Log.e(TAG, "Notification Body: " + remoteMessage.getNotification().getBody());
+            handleNotification(remoteMessage.getNotification().getBody());
+      //      sendNotification(remoteMessage.getNotification().getBody());
+         //   NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
+          //  notificationUtils.showSmallNotification(getPackageName(),remoteMessage.getNotification().getBody(),);
+
+        }
+
+        // Check if message contains a data payload.
+        if (remoteMessage.getData().size() > 0) {
+            Log.e(TAG, "Data Payload: " + remoteMessage.getData().toString());
+            Log.e(TAG, "Data Payload body: " + remoteMessage.getData().get("body"));
+
+            try {
+                JSONObject json = new JSONObject(remoteMessage.getData().toString());
+
+         //       handleDataMessage(json);
+              //  NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
+               // notificationUtils.showSmallNotification(getPackageName(),"jjjjj test gg");
+
+                /*Notification notification = new NotificationCompat.Builder(this)
+                        .setContentTitle(remoteMessage.getData().get("title"))
+                        .setContentText(remoteMessage.getData().get("body"))
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .build();
+                NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
+                manager.notify(123, notification);*/
+
+
+            } catch (Exception e) {
+                Log.e(TAG, "Exception: " + e.getMessage());
+                /*Notification notification = new NotificationCompat.Builder(this)
+                        .setContentTitle("eeeeeeeee")
+                        .setContentText("exeption")
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .build();
+                NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
+                manager.notify(123, notification);*/
+                 body = remoteMessage.getData().get("body");
+                if(remoteMessage.getData().containsKey("docId")){
+                    String docId = remoteMessage.getData().get("docId");
+                    if(docId!=null && !docId.equals("")){
+                        String socityCode = remoteMessage.getData().get("Scode");
+                        getImageStringFromDocNumber(docId,socityCode);
+                    }
+                }
+                   else{
+                    imageStringFromVisitNumber = base64String;
+                    String location = remoteMessage.getData().get("location");
+
+                    sendNotify();
+                }
+
+
+
+
+
+            }
+        }
+    }
+public void sendNotify(){
+
+    Log.e(TAG, "Data image service: " + imageStringFromVisitNumber);
+    Bitmap bitmap= getBitmapFromBase64(imageStringFromVisitNumber);
+    NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
+    notificationUtils.showSmallNotification(getPackageName(),body,bitmap);
+
+}
+    public Bitmap getBitmapFromBase64(String img) {
+        Bitmap src;
+        byte[] decodedString = Base64.decode(img, Base64.DEFAULT);
+        src = BitmapFactory.decodeByteArray(decodedString,0, decodedString.length);
+        return src;
+    }
+    private void handleNotification(String message) {
+        if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
+            // app is in foreground, broadcast the push message
+            Intent pushNotification = new Intent(Config.PUSH_NOTIFICATION);
+            pushNotification.putExtra("message", message);
+            LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
+
+
+            // play notification sound
+            NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
+            String title= "Booking12";
+            String timestamp="";
+
+            // play notification sound
+            showNotificationMessage(getApplicationContext(), title, message, timestamp, pushNotification);
+            notificationUtils.playNotificationSound();
+        }else{
+            Intent pushNotification = new Intent(Config.PUSH_NOTIFICATION);
+            pushNotification.putExtra("message", message);
+            LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
+
+
+            // play notification sound
+            NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
+            String title= "Booking23";
+            String timestamp="";
+
+            // play notification sound
+            showNotificationMessage(getApplicationContext(), title, message, timestamp, pushNotification);
+            notificationUtils.playNotificationSound();
+            // If the app is in background, firebase itself handles the notification
+        }
+    }
+
+    private void handleDataMessage(JSONObject json) {
+        Log.e(TAG, "push json: " + json.toString());
+
+        try {
+            JSONObject data = json.getJSONObject("data");
+
+            String title = data.getString("title");
+            String message = data.getString("message");
+            boolean isBackground = data.getBoolean("is_background");
+            String imageUrl = data.getString("image");
+            String timestamp = data.getString("timestamp");
+            JSONObject payload = data.getJSONObject("payload");
+
+            Log.e(TAG, "title: " + title);
+            Log.e(TAG, "message: " + message);
+            Log.e(TAG, "isBackground: " + isBackground);
+            Log.e(TAG, "payload: " + payload.toString());
+            Log.e(TAG, "imageUrl: " + imageUrl);
+            Log.e(TAG, "timestamp: " + timestamp);
+
+
+            if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
+                // app is in foreground, broadcast the push message
+                Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class);
+                resultIntent.putExtra("message", message);
+                Intent pushNotification = new Intent(Config.PUSH_NOTIFICATION);
+                pushNotification.putExtra("message", message);
+                LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
+
+                // play notification sound
+                NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
+                showNotificationMessage(getApplicationContext(), title, message, timestamp, resultIntent);
+                notificationUtils.playNotificationSound();
+            } else {
+                // app is in background, show the notification in notification tray
+                Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class);
+                resultIntent.putExtra("message", message);
+                notificationUtils.playNotificationSound();
+                // check for image attachment
+                if (TextUtils.isEmpty(imageUrl)) {
+                    showNotificationMessage(getApplicationContext(), title, message, timestamp, resultIntent);
+                } else {
+                    // image is present, show notification with image
+                    showNotificationMessageWithBigImage(getApplicationContext(), title, message, timestamp, resultIntent, imageUrl);
+                }
+            }
+        } catch (JSONException e) {
+            Log.e(TAG, "Json Exception: " + e.getMessage());
+        } catch (Exception e) {
+            Log.e(TAG, "Exception: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Showing notification with text only
+     */
+    private void showNotificationMessage(Context context, String title, String message, String timeStamp, Intent intent) {
+        notificationUtils = new NotificationUtils(context);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        notificationUtils.showNotificationMessage(title, message, timeStamp, intent,getPackageName(),getApplicationContext());
+    }
+
+    /**
+     * Showing notification with text and image
+     */
+    private void showNotificationMessageWithBigImage(Context context, String title, String message, String timeStamp, Intent intent, String imageUrl) {
+        notificationUtils = new NotificationUtils(context);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+      //  notificationUtils.showNotificationMessage(title, message, timeStamp, intent, imageUrl,getPackageName(),context);
+    }
+
+
+    private void sendNotification(String message) {
+
+        RemoteViews expandedView = new RemoteViews(getPackageName(), R.layout.view_expanded_notification);
+       expandedView.setTextViewText(R.id.timestamp, DateUtils.formatDateTime(this, System.currentTimeMillis(), DateUtils.FORMAT_SHOW_TIME));
+        expandedView.setTextViewText(R.id.notification_message, message);
+        // adding action to left button
+        Intent leftIntent = new Intent(this, Calling.class);
+        leftIntent.setAction("left");
+        expandedView.setOnClickPendingIntent(R.id.left_button, PendingIntent.getService(this, 0, leftIntent, PendingIntent.FLAG_UPDATE_CURRENT));
+        // adding action to right button
+        Intent rightIntent = new Intent(this, Calling.class);
+        rightIntent.setAction("right");
+        expandedView.setOnClickPendingIntent(R.id.right_button, PendingIntent.getService(this, 1, rightIntent, PendingIntent.FLAG_UPDATE_CURRENT));
+
+        RemoteViews collapsedView = new RemoteViews(getPackageName(), R.layout.view_collapsed_notification);
+        collapsedView.setTextViewText(R.id.timestamp, DateUtils.formatDateTime(this, System.currentTimeMillis(), DateUtils.FORMAT_SHOW_TIME));
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                // these are the three things a NotificationCompat.Builder object requires at a minimum
+                .setSmallIcon(R.drawable.ic_menu_manage)
+                .setContentTitle("Alert")
+                .setContentText(message)
+                // notification will be dismissed when tapped
+                .setAutoCancel(true)
+                // tapping notification will open MainActivity
+                .setContentIntent(PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0))
+                // setting the custom collapsed and expanded views
+                .setCustomContentView(collapsedView)
+                .setCustomBigContentView(expandedView)
+                // setting style to DecoratedCustomViewStyle() is necessary for custom views to display
+                .setStyle(new android.support.v7.app.NotificationCompat.DecoratedCustomViewStyle());
+        Notification notification;
+        notification=builder.mNotification;
+
+        // retrieves android.app.NotificationManager
+        NotificationManager notificationManager = (android.app.NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.notify(0, builder.build());
+
+    }
+
+    public String getImageStringFromDocNumber(String docId,String code) {
+
+            CollectionReference collectionReference = FirebaseFirestore.getInstance().collection(code).document("Visitors").collection("SVisitors");
+            collectionReference.document(docId).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+
+                @Override
+                public void onEvent(DocumentSnapshot snapshot, FirebaseFirestoreException e) {
+            //        System.out.println("Documents data service==="+snapshot.getData().toString());
+                    imageStringFromVisitNumber =  snapshot.getString("VistorPic");
+//                    System.out.println("Image1===="+imageStringFromVisitNumber);
+                    sendNotify();
+                }
+
+
+            });
+
+
+
+        return imageStringFromVisitNumber;
+    }
+}

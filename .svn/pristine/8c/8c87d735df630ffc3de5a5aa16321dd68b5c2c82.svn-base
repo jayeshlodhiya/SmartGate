@@ -1,0 +1,133 @@
+package com.payphi.visitorsregister.model;
+
+/**
+ * Created by swapnil.g on 2/6/2018.
+ */
+public class Visitor {
+    private String whomTomeet;
+    private String vistorVerfiedBy;
+    private String VistorSign;
+    private String visitorPic;
+    private String vistorOutTime;
+    private String vistorName;
+    private String vistorMobile;
+    private String vistorInsertedBy;
+    private String vistorInTime;
+    private String visitNumber;
+    private String visitPurpose;
+    private String flatNo;
+    private String docId;
+    private String mobileVeriy;
+
+    public String getMobileVeriy() {
+        return mobileVeriy;
+    }
+
+    public void setMobileVeriy(String mobileVeriy) {
+        this.mobileVeriy = mobileVeriy;
+    }
+
+    public String getDocId() {
+        return docId;
+    }
+
+    public void setDocId(String docId) {
+        this.docId = docId;
+    }
+
+    public String getWhomTomeet() {
+        return whomTomeet;
+    }
+
+    public void setWhomTomeet(String whomTomeet) {
+        this.whomTomeet = whomTomeet;
+    }
+
+    public String getVistorVerfiedBy() {
+        return vistorVerfiedBy;
+    }
+
+    public void setVistorVerfiedBy(String vistorVerfiedBy) {
+        this.vistorVerfiedBy = vistorVerfiedBy;
+    }
+
+    public String getVistorSign() {
+        return VistorSign;
+    }
+
+    public void setVistorSign(String vistorSign) {
+        VistorSign = vistorSign;
+    }
+
+    public String getVisitorPic() {
+        return visitorPic;
+    }
+
+    public void setVisitorPic(String visitorPic) {
+        this.visitorPic = visitorPic;
+    }
+
+    public String getVistorOutTime() {
+        return vistorOutTime;
+    }
+
+    public void setVistorOutTime(String vistorOutTime) {
+        this.vistorOutTime = vistorOutTime;
+    }
+
+    public String getVistorName() {
+        return vistorName;
+    }
+
+    public void setVistorName(String vistorName) {
+        this.vistorName = vistorName;
+    }
+
+    public String getVistorMobile() {
+        return vistorMobile;
+    }
+
+    public void setVistorMobile(String vistorMobile) {
+        this.vistorMobile = vistorMobile;
+    }
+
+    public String getVistorInsertedBy() {
+        return vistorInsertedBy;
+    }
+
+    public void setVistorInsertedBy(String vistorInsertedBy) {
+        this.vistorInsertedBy = vistorInsertedBy;
+    }
+
+    public String getVistorInTime() {
+        return vistorInTime;
+    }
+
+    public void setVistorInTime(String vistorInTime) {
+        this.vistorInTime = vistorInTime;
+    }
+
+    public String getVisitNumber() {
+        return visitNumber;
+    }
+
+    public void setVisitNumber(String visitNumber) {
+        this.visitNumber = visitNumber;
+    }
+
+    public String getVisitPurpose() {
+        return visitPurpose;
+    }
+
+    public void setVisitPurpose(String visitPurpose) {
+        this.visitPurpose = visitPurpose;
+    }
+
+    public String getFlatNo() {
+        return flatNo;
+    }
+
+    public void setFlatNo(String flatNo) {
+        this.flatNo = flatNo;
+    }
+}

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <RelativeLayout
+        android:id="@+id/regheaderId"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:elevation="5dp"
+
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+
+        >
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="EMERGENCY"
+            android:gravity="center"
+            android:textColor="#fff"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="15dp"
+            android:textSize="18dp"
+            android:layout_marginLeft="120dp"
+            android:layout_gravity="center" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow_back_24dp"
+            android:layout_marginTop="10dp"
+            android:onClick="FinishGoBack"
+            android:layout_marginLeft="3dp" />
+    </RelativeLayout>
+
+    <RadioGroup
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/radioGroup"
+        android:layout_below="@+id/regheaderId"
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+
+        <RadioButton
+            android:button="@null"
+            android:text=""
+
+            android:tag="animal"
+            android:id="@+id/animalTreatId"
+            android:background="@drawable/animaltreat"
+            android:layout_width="120dp"
+            android:layout_height="120dp" />
+    <View
+    android:layout_width="40dp"
+    android:layout_height="70dp"></View>
+        <RadioButton
+            android:id="@+id/fireTreatId"
+            android:tag="fire"
+            android:button="@null"
+
+            android:background="@drawable/emergency_fire"
+            android:layout_width="90dp"
+            android:layout_height="120dp" />
+
+        <View
+            android:layout_width="35dp"
+            android:layout_height="70dp"></View>
+
+        <RadioButton
+            android:id="@+id/medicalTreatId"
+            android:button="@null"
+            android:tag="medical"
+
+            android:background="@drawable/medicaltreat"
+            android:layout_width="120dp"
+            android:layout_height="120dp" />
+    </RadioGroup>
+    <RadioGroup
+        android:layout_marginTop="20dp"
+        android:id="@+id/radioGroup2"
+        android:layout_below="@+id/radioGroup"
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <View
+            android:layout_width="35dp"
+            android:layout_height="70dp"></View>
+
+        <RadioButton
+            android:id="@+id/liftTreatId"
+            android:button="@null"
+
+            android:tag="lift"
+            android:background="@drawable/lifttreat"
+            android:layout_width="120dp"
+            android:layout_height="120dp" />
+
+        <View
+            android:layout_width="35dp"
+            android:layout_height="70dp"></View>
+
+        <RadioButton
+            android:id="@+id/visitorTreatId"
+
+            android:button="@null"
+            android:tag="visitor"
+            android:background="@drawable/visitortreat"
+            android:layout_width="120dp"
+            android:layout_height="120dp" />
+
+
+
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/msgid"
+        android:layout_below="@+id/radioGroup2"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="match_parent"
+        android:textSize="25dp"
+        android:padding="10dp"
+        android:text="Hold 'Notify' button to notify all society members and security guards about the event "
+        android:layout_height="wrap_content">
+
+
+    </TextView>
+    <Button
+        android:id="@+id/notifybutton"
+        android:layout_width="wrap_content"
+        android:layout_below="@+id/msgid"
+        android:background="@color/colorPrimary"
+        android:text="Notify"
+        android:textColor="@color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content">
+
+    </Button>
+
+</RelativeLayout>

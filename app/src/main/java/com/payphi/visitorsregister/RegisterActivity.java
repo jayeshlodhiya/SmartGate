@@ -1,0 +1,196 @@
+package com.payphi.visitorsregister;
+
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+
+import com.google.gson.Gson;
+import com.payphi.visitorsregister.model.User;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class RegisterActivity extends AppCompatActivity {
+    RelativeLayout tablayout;
+    private ViewPager viewPager;
+    private RegisterFragment registerFragment;
+    private GenerateTicketFragment generateTicketFragment;
+    private VisitorsListFragment visitorsListFragment;
+    private TabLayout tabLayout;
+    ImageView scanView;
+    User user;
+    SharedPreferences sharedPreferences;
+    int PRIVATE_MODE = 0;
+    private static final String PREF_NAME = "sosessionPref";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_register);
+        tabLayout = (TabLayout) findViewById(R.id.regtabsId);
+        viewPager = (ViewPager) findViewById(R.id.regviewpager);
+        setupViewPager(viewPager);
+
+        tabLayout = (TabLayout) findViewById(R.id.regtabsId);
+        tabLayout.setupWithViewPager(viewPager);
+
+       // scanView = (ImageView) findViewById(R.id.scanId);
+       /* scanView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openCamera();
+            }
+        });*/
+
+        if (user.getRole().equals("S")) {
+
+           // scanView.setVisibility(View.VISIBLE);
+        } else if (user.getRole().equals("R")) {
+
+            //scanView.setVisibility(View.INVISIBLE);
+        } else if (user.getRole().equals("A")) {
+            //adapter.addFrag(registerFragment, "New Visitor");
+
+            //scanView.setVisibility(View.INVISIBLE);
+        }
+
+    }
+
+    private void GetUserData() {
+
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("UserObj", "");
+        user = gson.fromJson(json, User.class);
+    }
+
+    private void setupViewPager(ViewPager viewPager) {
+        sharedPreferences = this.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+        GetUserData();
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+
+        registerFragment = new RegisterFragment();
+        generateTicketFragment = new GenerateTicketFragment();
+        final Bundle args = new Bundle();
+        args.putString("TAG", "registerFragment");
+        registerFragment.setArguments(args);
+        if (user.getRole().equals("S")) {
+            adapter.addFrag(registerFragment, "New Visitor");
+
+        } else if (user.getRole().equals("R")) {
+            adapter.addFrag(generateTicketFragment, "Visitor Pass");
+
+        } else if (user.getRole().equals("A")) {
+            //adapter.addFrag(registerFragment, "New Visitor");
+            adapter.addFrag(generateTicketFragment, "Visitor Pass");
+
+        }
+
+
+        visitorsListFragment = new VisitorsListFragment();
+        adapter.addFrag(visitorsListFragment, "Register");
+
+        //adapter.addFrag(new TransactionListFragment(), "Transactions");
+        viewPager.setAdapter(adapter);
+    }
+    public void goBack(View view){
+        finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+    }
+
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFrag(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
+    }
+
+    private void openCamera() {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.CAMERA)) {
+                android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+                builder.setTitle("Need Camera Access Permission");
+                builder.setMessage("This app needs camera access permission");
+                builder.setPositiveButton("Grant", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                        //ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA}, 100);
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                builder.show();
+            } else {
+                //just request the permission
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA}, 100);
+            }
+        } else {
+            proceedAfterPermission();
+        }
+    }
+
+    private void proceedAfterPermission() {
+
+
+        //WE GOT THE PERMISSION
+        //Toast.makeText(getApplicationContext(), "We Got The Camera Acceass Permission", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, FakeRingerActivity.class);
+         intent.putExtra("name", "jai");
+        intent.putExtra("number", "jai");
+        startActivityForResult(intent, 1);
+        // Toast.makeText(this.getActivity(), "  IFSC code : " + IINid, Toast.LENGTH_SHORT).show();
+        //overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if(RegisterFragment.getInstance()!=null){
+            RegisterFragment.getInstance().RefreshFragment();
+        }
+
+    }
+}

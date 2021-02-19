@@ -1,0 +1,228 @@
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        tools:context=".MainActivity">
+
+
+        <EditText
+            android:id="@+id/venNameId"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:hint="Name"
+            android:layout_marginLeft="155dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
+            android:inputType="text"
+            android:textSize="17sp"
+
+            android:background="@drawable/rounded_edittext"
+            android:ems="10">
+
+            <requestFocus />
+        </EditText>
+<ImageView
+    android:id="@+id/vendorImagId"
+    android:layout_width="150dp"
+    android:layout_height="150dp"
+    android:background="@drawable/ajay"
+
+    />
+
+        <EditText
+            android:id="@+id/venmobileId"
+            android:background="@drawable/rounded_edittext"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/vendorImagId"
+            android:layout_margin="10dp"
+            android:maxLength="10"
+            android:hint="Mobile Number"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
+            android:inputType="number"
+            android:textSize="17sp"
+            android:ems="10">
+
+        </EditText>
+
+        <TextView
+            android:id="@+id/venverifyId"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+
+            android:text="Verify"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textStyle="italic"
+            android:textColorLink="@color/blue"
+            android:background="@drawable/rounded_button_settings"
+
+            android:layout_alignBottom="@+id/venmobileId"
+            android:layout_toStartOf="@+id/venaadhaarImgbuttonId" />
+
+        <ImageView
+            android:id="@+id/venverifyiconId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:visibility="gone"
+            android:background="@drawable/verifiedicon"
+            android:layout_alignBottom="@+id/venmobileId"
+            android:layout_alignStart="@+id/ventakePic" />
+
+        <EditText
+            android:id="@+id/venflatId"
+            android:background="@drawable/rounded_edittext"
+            android:layout_width="fill_parent"
+            android:layout_margin="10dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/venmobileId"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
+            android:hint="Flat Number eg: 300,706"
+            android:inputType="text"
+            android:textSize="17sp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:ems="10"></EditText>
+
+
+        <EditText
+
+            android:id="@+id/veninTimeId"
+            android:background="@drawable/rounded_edittext"
+            android:layout_width="fill_parent"
+            android:layout_margin="10dp"
+            android:visibility="gone"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="15dp"
+            android:layout_below="@+id/venflatId"
+            android:hint="Enter In Time"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
+            android:inputType="text"
+            android:textSize="17sp"
+            android:ems="10"></EditText>
+
+        <EditText
+
+            android:id="@+id/venpurposeId"
+            android:background="@drawable/rounded_edittext"
+            android:layout_width="fill_parent"
+            android:layout_margin="10dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="15dp"
+            android:layout_below="@+id/veninTimeId"
+            android:hint="Work"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
+            android:inputType="text"
+            android:textSize="17sp"
+            android:ems="10"></EditText>
+
+        <EditText
+
+            android:id="@+id/venaddressId"
+            android:background="@drawable/rounded_edittext"
+            android:layout_width="fill_parent"
+            android:layout_margin="10dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="15dp"
+            android:layout_below="@+id/venpurposeId"
+            android:hint="Address"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
+            android:inputType="text"
+            android:textSize="17sp"
+            android:ems="10"></EditText>
+
+        <EditText
+
+            android:id="@+id/venwhomId"
+            android:background="@drawable/rounded_edittext"
+            android:layout_width="fill_parent"
+            android:layout_margin="10dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="15dp"
+            android:layout_below="@+id/venaddressId"
+            android:hint="Aadhaar number"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
+            android:inputType="text"
+            android:textSize="17sp"
+            android:ems="10"></EditText>
+
+        <ImageView
+            android:id="@+id/venaadhaarImgbuttonId"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/cameraicon"
+            android:layout_alignTop="@+id/venwhomId"
+            android:layout_alignEnd="@+id/venNameId" />
+
+
+
+
+
+
+        <ImageView
+            android:id="@+id/venimgId"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+
+            android:layout_below="@+id/venaadhaarImgbuttonId"
+            android:layout_alignEnd="@+id/ventakePic" />
+
+
+        <Button
+            android:id="@+id/button_registerId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/green"
+            android:padding="8dp"
+            android:text="Register"
+
+            android:onClick="onbuttonProceedClick"
+            android:textColor="#fff"
+            android:layout_marginTop="120dp"
+            android:layout_below="@+id/venimgId"
+            android:layout_gravity="bottom" />
+
+        <Button
+            android:id="@+id/venbutton_sign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="sign"
+            android:visibility="gone"
+            android:layout_alignTop="@+id/ventakePic"
+            android:layout_alignRight="@+id/veninTimeId"
+            android:layout_alignEnd="@+id/veninTimeId" />
+
+
+        <ImageButton
+            android:id="@+id/ventakePic"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+
+            android:background="@drawable/cameraicon"
+            android:layout_alignBottom="@+id/vendorImagId"
+            android:layout_centerHorizontal="true" />
+
+
+
+    </RelativeLayout>
+</ScrollView>

@@ -1,0 +1,105 @@
+package com.payphi.visitorsregister;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.os.Bundle;
+import android.os.Vibrator;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
+
+import com.google.zxing.Result;
+
+import me.dm7.barcodescanner.zxing.ZXingScannerView;
+
+public class VisitorTicketScannerActivity extends Activity implements ZXingScannerView.ResultHandler {
+
+    private ZXingScannerView scannerView;
+    boolean status = false;
+    ImageButton flashimg;
+    String reqfrom = "";
+
+    @Override
+    public void onCreate(Bundle state) {
+        super.onCreate(state);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setContentView(R.layout.activity_visitor_ticket_scanner);
+        FrameLayout contentFrame = (FrameLayout) findViewById(R.id.content_frame);
+        flashimg = (ImageButton) findViewById(R.id.flashId);
+       /* uidno = (TextView)findViewById(R.id.textView5);*/
+        scannerView = new ZXingScannerView(this);
+        //scannerView.getBackground().s;
+
+        contentFrame.addView(scannerView);
+
+
+        if (getIntent().getSerializableExtra("ReqFrom") != null) {
+            reqfrom = getIntent().getSerializableExtra("ReqFrom").toString();
+        }
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+
+    }
+
+
+    public void toggleflash(View view) {
+        if (!status) {
+            status = true;
+            flash(true);
+            flashimg.setBackgroundResource(R.drawable.flashon);
+        } else {
+            flash(false);
+            status = false;
+            flashimg.setBackgroundResource(R.drawable.flashoff);
+        }
+    }
+
+    public void flash(boolean option) {
+        scannerView.setFlash(option);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        scannerView.setResultHandler(this);
+        scannerView.startCamera();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        scannerView.stopCamera();
+    }
+
+    @Override
+    public void handleResult(Result rawResult) {
+        Intent intent = new Intent();
+        try {
+
+            setResult(1, intent);
+            final Vibrator vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            vibe.vibrate(100);
+            if (reqfrom != null && reqfrom.equals("PC")) {
+                ProfieCompleteActivity.getInstace().getSocityCode(rawResult.toString());
+            } else {
+                RegisterFragment.getInstance().setData(rawResult.toString());
+            }
+
+            finish();
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            finish();
+            //startActivity(getIntent());
+        }
+    }
+
+
+}

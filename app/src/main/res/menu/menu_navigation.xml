@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:checkableBehavior="single"
+        android:id="@+id/main_menu">
+        <item
+
+            android:id="@+id/HomeId"
+            android:title="         Home"
+            />
+        <item
+            android:visible="false"
+            android:id="@+id/profileId"
+            android:title="Profile"
+           />
+
+
+    </group>
+
+    <group
+        android:id="@+id/legal_button"
+        android:checkableBehavior="none">
+
+        <item
+            android:id="@+id/logoutid"
+
+            android:title="         Log out"></item>
+    </group>
+</menu>

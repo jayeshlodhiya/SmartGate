@@ -1,0 +1,426 @@
+package com.payphi.visitorsregister;
+
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.payphi.visitorsregister.utils.SharedPrefManager;
+import com.squareup.picasso.Picasso;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+public class ProfieCompleteActivity extends AppCompatActivity {
+    EditText mobile, flat;
+    Button proceed;
+    String mobileNo;
+    Context context;
+    String flatNo;
+    String socityCode = "";
+    String flag;
+    SharedPrefManager sharedPrefManager;
+    ImageView imageView, pprofileImage;
+    TextView emailView, nameview, welcomeId;
+    String role;
+    TextView noteText;
+    public static ProgressDialog paydialog; // this = YourActivity
+    public static ProfieCompleteActivity profieCompleteActivity;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_profie_complete);
+        sharedPrefManager = new SharedPrefManager(this);
+        context = this;
+        CheckUserExits();
+        mobile = (EditText) findViewById(R.id.commobileId);
+        flat = (EditText) findViewById(R.id.comflatId);
+        proceed = (Button) findViewById(R.id.com_button_scan);
+        emailView = (TextView) findViewById(R.id.pemailId);
+        nameview = (TextView) findViewById(R.id.pnameId);
+        imageView = (ImageView) findViewById(R.id.scansecuritycodeId);
+        pprofileImage = (ImageView) findViewById(R.id.pprofileImage);
+        welcomeId = (TextView) findViewById(R.id.welcomeId);
+        noteText = (TextView) findViewById(R.id.txtid);
+
+        welcomeId.setVisibility(View.GONE);
+        profieCompleteActivity = this;
+        emailView.setText(sharedPrefManager.getUserEmail());
+        nameview.setText(sharedPrefManager.getName());
+        String uri = sharedPrefManager.getPhoto();
+        paydialog = new ProgressDialog(this);
+        paydialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        paydialog.setMessage("Please wait..");
+        paydialog.setIndeterminate(true);
+        paydialog.setCancelable(true);
+        paydialog.setCanceledOnTouchOutside(false);
+        flat.setVisibility(View.GONE);
+        Uri mPhotoUri = Uri.parse(uri);
+        Picasso.with(this)
+                .load(mPhotoUri)
+                .placeholder(android.R.drawable.sym_def_app_icon)
+                .error(R.drawable.customerpic)
+                .into(pprofileImage);
+        proceed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Validate();
+                //ScanAndCompleteReg();
+            }
+        });
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ScanAndCompleteReg();
+            }
+        });
+    }
+
+    private void CheckUserExits() {
+        String email = sharedPrefManager.getUserEmail();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference docRef = db.collection("SocUsers");
+        docRef.whereEqualTo("Email", email).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                int size = documentSnapshots.getDocuments().size();
+                if (size > 0) {
+                    for (DocumentSnapshot documentSnapshot : documentSnapshots.getDocuments()) {
+                        System.out.println("Documents code data===" + documentSnapshot.getString("SocCode"));
+
+                        sharedPrefManager.saveSecurityCode(context, documentSnapshot.getString("SocCode"));
+                        sharedPrefManager.saveProfile(context, true);
+
+                        Intent intent = new Intent(ProfieCompleteActivity.this, HomeDashboard.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+                        startActivity(intent);
+                        finish();
+
+
+                    }
+
+                } else {
+                    //               showerr();
+                    ShowDialog();
+                }
+
+            }
+
+        });
+
+    }
+
+    private void ShowDialog() {
+
+        LayoutInflater factory = LayoutInflater.from(this);
+        final View deleteDialogView = factory.inflate(R.layout.role_selection, null);
+        final AlertDialog deleteDialog = new AlertDialog.Builder(this).create();
+        deleteDialog.setCancelable(false);
+        deleteDialog.setView(deleteDialogView);
+        final RadioButton sbutton = (RadioButton) deleteDialogView.findViewById(R.id.radiosecurityId);
+        final RadioButton rbutton = (RadioButton) deleteDialogView.findViewById(R.id.radiresdentId);
+        final Button button = (Button) deleteDialogView.findViewById(R.id.okId);
+        RadioGroup radioGroup = (RadioGroup) deleteDialogView.findViewById(R.id.roleradioGrpid);
+        radioGroup.clearCheck();
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton rb = (RadioButton) group.findViewById(checkedId);
+
+                if (null != rb && checkedId > -1) {
+                    //Toast.makeText(getContext(), rb.getTag().toString(), Toast.LENGTH_SHORT).show();
+                    String tag = rb.getTag().toString();
+
+                    if (tag.equals("security")) {
+                        sbutton.setBackgroundColor(Color.LTGRAY);
+                        rbutton.setBackgroundColor(Color.WHITE);
+                        flat.setVisibility(View.GONE);
+                        role = "S";
+
+                    } else if (tag.equals("resident")) {
+                        sbutton.setBackgroundColor(Color.WHITE);
+                        rbutton.setBackgroundColor(Color.LTGRAY);
+                        role = "R";
+                        flat.setVisibility(View.VISIBLE);
+                    }
+                }
+
+
+            }
+
+            ;
+        });
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (role == null || role.equals("")) {
+                    Toast.makeText(getApplicationContext(), "Please Choose Security/Resident!", Toast.LENGTH_LONG).show();
+                } else {
+                    deleteDialog.dismiss();
+                }
+            }
+        });
+
+       /* deleteDialogView.findViewById(R.id.shareId).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                //your business logic
+//                Share();
+            }
+        });*/
+
+
+        deleteDialog.show();
+
+    }
+
+
+    private void Validate() {
+        mobileNo = mobile.getText().toString();
+        flatNo = flat.getText().toString();
+        if (mobileNo != null && mobileNo.equals("")) {
+            Toast.makeText(this, "Enter Mobile Number!", Toast.LENGTH_LONG).show();
+        } else if (flatNo != null && flatNo.equals("") && role.equals("R")) {
+            Toast.makeText(this, "Enter Flat Number!", Toast.LENGTH_LONG).show();
+        } else if (flag != null && flag.equals("C")) {
+
+            SaveUsers();
+        } else {
+            Toast.makeText(this, "Please Scan Security code !", Toast.LENGTH_LONG).show();
+            //ValidateSocode();
+
+
+        }
+
+    }
+
+    public static ProfieCompleteActivity getInstace() {
+        return profieCompleteActivity;
+    }
+
+    private void ScanAndCompleteReg() {
+
+        openCamera();
+
+
+    }
+
+    private void openCamera() {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.CAMERA)) {
+                android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+                builder.setTitle("Need Camera Access Permission");
+                builder.setMessage("This app needs camera access permission");
+                builder.setPositiveButton("Grant", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                        //ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA}, 100);
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                builder.show();
+            } else {
+                //just request the permission
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA}, 100);
+            }
+        } else {
+            proceedAfterPermission();
+        }
+    }
+
+    private void proceedAfterPermission() {
+
+        //WE GOT THE PERMISSION
+        //Toast.makeText(getApplicationContext(), "We Got The Camera Acceass Permission", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, VisitorTicketScannerActivity.class);
+        intent.putExtra("ReqFrom", "PC");
+        startActivityForResult(intent, 1);
+        // Toast.makeText(this.getActivity(), "  IFSC code : " + IINid, Toast.LENGTH_SHORT).show();
+        //overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+    }
+
+    public void getSocityCode(String code) {
+        this.socityCode = code;
+        if (code != null || !code.equals("")) {
+            ValidateSocode();
+        }
+
+
+        //    SaveUsers();
+    }
+
+    private void ValidateSocode() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference docRef = db.collection("SocietyNames");
+
+        docRef.whereEqualTo("SCode", socityCode).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                int size = documentSnapshots.getDocuments().size();
+                if (size > 0) {
+                    imageView.setVisibility(View.INVISIBLE);
+                    flag = "C";
+                    for (DocumentSnapshot documentSnapshot : documentSnapshots.getDocuments()) {
+                        welcomeId.setVisibility(View.VISIBLE);
+                        welcomeId.setText("Welcome to " + documentSnapshot.getString("Name"));
+                        noteText.setVisibility(View.GONE);
+                    }
+
+                    //SaveUsers();
+
+                } else {
+                    showerr();
+                }
+
+            }
+
+        });
+
+    }
+
+    private void showerr() {
+        Toast.makeText(this, "Socity is not registered", Toast.LENGTH_LONG).show();
+    }
+
+    public void SaveUsers() {
+
+       /* try {
+            if ((paydialog == null) && !paydialog.isShowing()) {
+                paydialog.show();
+            }
+        } catch (final IllegalArgumentException e) {
+            // Handle or log or ignore
+        } catch (final Exception e) {
+            // Handle or log or ignore
+        } finally {
+            paydialog = null;
+        }
+*/
+
+        Map<String, Object> userMap;
+        String name = sharedPrefManager.getName();
+        String email = sharedPrefManager.getUserEmail();
+        String photo = sharedPrefManager.getPhoto();
+
+        DocumentReference userref = FirebaseFirestore.getInstance().collection(socityCode).document("UserDoc").collection("Sousers").document();
+
+        DocumentReference userlistref = FirebaseFirestore.getInstance().collection("SocUsers").document();
+
+        Map userlistmap = new HashMap<String, Object>();
+        userMap = new HashMap<String, Object>();
+
+
+        userMap.put("Name", name);
+        userMap.put("Email", email);
+        userMap.put("FlatNumber", flatNo);
+        userMap.put("Photo", photo);
+        userMap.put("Status", "Active");
+        userMap.put("DeviceId", FirebaseInstanceId.getInstance().getToken());
+        userMap.put("MobileNumber", mobileNo);
+        userMap.put("Cretaed", new Date());
+        userMap.put("DocId", userref.getId());
+        userMap.put("Role", role);
+        userMap.put("SocCode", socityCode);
+
+
+        userlistmap.put("Email", email);
+        userlistmap.put("SocCode", socityCode);
+//        paydialog.show();
+        sharedPrefManager.saveMobileFlat(this, mobileNo, flatNo);
+        sharedPrefManager.saveProfile(this, true);
+        sharedPrefManager.saveSecurityCode(this, socityCode);
+        userlistref.set(userlistmap).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+            }
+        });
+
+        userref.set(userMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+  /*              try {
+                    if ((paydialog != null) && paydialog.isShowing()) {
+                        paydialog.dismiss();
+                    }
+                } catch (final IllegalArgumentException e) {
+                    // Handle or log or ignore
+                } catch (final Exception e) {
+                    // Handle or log or ignore
+                } finally {
+                    paydialog = null;
+                }
+*/
+                //Toast.makeText(getApplicationContext(),"Registration done!!",Toast.LENGTH_LONG).show();
+
+                Intent intent = new Intent(ProfieCompleteActivity.this, HomeDashboard.class);
+                startActivity(intent);
+                finish();
+                //            paydialog.dismiss();
+                //LocalNotification();
+                // SendNotificationToShop();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                try {
+                    if ((paydialog != null) && paydialog.isShowing()) {
+                        paydialog.dismiss();
+                    }
+                } catch (final IllegalArgumentException e1) {
+                    // Handle or log or ignore
+                } catch (final Exception e1) {
+                    // Handle or log or ignore
+                } finally {
+                    paydialog = null;
+                }
+                Toast.makeText(getApplicationContext(), "Error Occured.!", Toast.LENGTH_LONG).show();
+                //        paydialog.dismiss();
+
+
+            }
+        });
+
+
+    }
+
+
+}

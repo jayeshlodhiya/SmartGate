@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#7C1660</color>
+    <color name="colorPrimaryDark">#7C1660</color>
+    <color name="colorAccent">#7C1660</color>
+    <color name="tabsScrollColor">#8a140e</color>
+    <color name="deeppurple">#7c4dff</color>
+    <color name="light_black">#504f4f</color>
+    <color name="black">#000000</color>
+    <color name="lightgray">#ededed</color>
+    <color name="testcolorblue">#152b38</color>
+    <color name="yello">#ffb300</color>
+    <color name="green">#51d4a6</color>
+    <color name="white">#fff</color>
+    <color name="green_new">#22CA3E</color>
+    <color name="gray">#ececec</color>
+    <color name="blue">#0737d4</color>
+    <color name="teal_050">#e0f2f1</color> <!-- Use with black text -->
+    <color name="teal_100">#b2dfdb</color> <!-- Use with black text -->
+    <color name="teal_200">#80cbc4</color> <!-- Use with black text -->
+    <color name="teal_300">#4db6ac</color> <!-- Use with black text -->
+    <color name="teal_400">#26a69a</color> <!-- Use with black text -->
+    <color name="teal_500">#009688</color> <!-- Use with white text -->
+    <color name="teal_600">#00897b</color> <!-- Use with white text -->
+    <color name="teal_700">#00796b</color> <!-- Use with white text -->
+    <color name="teal_800">#00695c</color> <!-- Use with white text -->
+    <color name="teal_900">#004d40</color> <!-- Use with white text -->
+    <color name="teal_a100">#a7ffeb</color> <!-- Use with black text -->
+    <color name="teal_a200">#64ffda</color> <!-- Use with black text -->
+    <color name="teal_a400">#1de9b6</color> <!-- Use with black text -->
+    <color name="teal_a700">#9BCD9B</color> <!-- Use with black text -->
+    <color name="voilet">#b30086</color> <!-- Use with black text -->
+    <color name="navyblue">#0000b3</color> <!-- Use with black text -->
+    <color name="orange">#ff3300</color> <!-- Use with black text -->
+    <color name="blue_grey_500">#607D8B</color>
+    <color name="blue_grey_600">#546E7A</color>
+    <color name="blue_grey_700">#455A64</color>
+    <color name="blue_grey_800">#37474F</color>
+    <color name="blue_grey_900">#263238</color>
+    <color name="viewBg">#f1f5f8</color>
+    <color name="themecolor">#AF7AC5</color>
+    <color name="md_cyan_A400">#00E5FF</color>
+    <color name="bluenew">#6CA6CD</color>
+    <color name="gray33">#c8ec9a</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorGrapeFruit">#ED5565</color>
+    <color name="colorGrapeFruitDark">#DA4453</color>
+    <color name="colorBitterSweet">#FC6E51</color>
+    <color name="colorBitterSweetDark">#E9573F</color>
+    <color name="colorFlower">#FFCE54</color>
+    <color name="colorFlowerDark">#F68B42</color>
+    <color name="colorGrass">#A0D468</color>
+    <color name="colorGrassDark">#8CC152</color>
+    <color name="colorBlueJeans">#509CEC</color>
+    <color name="colorBlueJeansDark">#4A89DC</color>
+    <color name="colorLavander">#AC92EC</color>
+    <color name="colorLavanderDark">#967ADC</color>
+    <color name="colorMint">#48CFAD</color>
+    <color name="colorMintDark">#37BC9B</color>
+    <color name="colorAqua">#4FC1E9</color>
+    <color name="colorAquaDark">#3BAFDA</color>
+    <color name="colorPinkRose">#EC87C0</color>
+    <color name="colorPinkRoseDark">#D770AD</color>
+
+    <color name="marron">#800000</color> <!-- Use with black text -->
+    <color name="transparent_white_hex_8">#88ffffff</color>
+    <color name="black_semi_transparent">#B2000000</color>
+    <color name="picker1blue">#53C3B7</color>
+    <color name="address">#2F7092</color>
+    <color name="followers">#0D5D98</color>
+    <color name="headings">#3797CF</color>
+    <color name="solidCircle">#AAFFFFFF</color>
+    <color name="circleBorder">#50FFFFFF</color>
+    <color name="gradEnd">#67EFC8</color>
+    <color name="gradStart">#63C9FF</color>
+    <color name="followersBg">#65DCE5</color>
+    <color name="followingBg">#49BEFF</color>
+    <color name="grey">#E5E5E5</color>
+
+
+    <color name="darkWhite">#ede4e4e4</color>
+    <color name="incoming_call_decline_circle">#fff44336</color>
+    <color name="incoming_call_widget_bitmap">#ffffffff</color>
+    <color name="glowpad_outer_ring_color">#26ffffff</color>
+    <color name="contact_photo_tint">#a3000000</color>
+    <color name="sms_icon">#00ACC1</color>
+
+    <color name="navColor">#80FFFFFF</color>
+    <color name="colorPurpleLight">#4B5980</color>
+    <color name="colorPurpleDark">#3F4A68</color>
+
+    <color name="colorTextBlack">#333333</color>
+    <color name="colorTextHint">#e1e1e1</color>
+    <color name="colorTextInfo">#9b9b9b</color>
+    <color name="colorGreen">#A5DE40</color>
+    <color name="transparent">#00000000</color>
+    <color name="gradStartblue">#19AA8B</color>
+    <color name="gradStopblue">#23A7D8</color>
+    <color name="icon_orange_color">#f26c29</color>
+    <color name="mic_button_halo">#20000000</color>
+    <color name="main_bg_color">#FF2a91be</color>
+
+    <color name="aidialog_background">#ffffffff</color>
+</resources>
+

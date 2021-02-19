@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    tools:context="com.payphi.visitorsregister.RegisterActivity">
+
+    <RelativeLayout
+        android:id="@+id/regheaderId"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+
+        android:layout_marginTop="0dp"
+        android:background="@color/colorPrimary"
+
+        android:elevation="5dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/scanId"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="310dp"
+            android:layout_marginTop="13dp"
+            android:background="@drawable/scanticket1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="160dp"
+            android:layout_marginTop="15dp"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="POLL"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:textColor="#fff"
+            android:textSize="15dp" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow_back_24dp"
+            android:layout_marginTop="10dp"
+            android:onClick="FinishGoBack"
+            android:layout_marginLeft="3dp" />
+    </RelativeLayout>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/regtabsId"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+
+        app:tabGravity="fill"
+        android:layout_below="@+id/regheaderId"
+        android:background="@color/white"
+        app:tabIndicatorColor="@color/colorPrimary"
+        app:tabIndicatorHeight="3dp"
+        app:tabSelectedTextColor="@color/light_black"
+        app:tabMode="fixed" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/regviewpager"
+        android:background="@color/gray"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp" />
+</RelativeLayout>

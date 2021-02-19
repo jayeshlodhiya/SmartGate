@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#fff"
+    android:layout_margin="5dp">
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="3dp"
+            >
+
+         <!--   <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+
+                android:layout_marginRight="16dp" />-->
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imageView"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginRight="16dp"
+                app:border_color="@color/green"
+                >
+
+            </de.hdodenhof.circleimageview.CircleImageView>
+            <TextView
+                android:id="@+id/visitorNameId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/imageView"
+                android:text="Title"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/visitorMobileId"
+                android:textStyle="bold|italic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/visitorNameId"
+                android:layout_toRightOf="@+id/imageView"
+                android:text="mobile" />
+
+            <TextView
+                android:id="@+id/visitorFlatId"
+                android:textStyle="bold|italic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/visitorMobileId"
+                android:layout_toRightOf="@+id/imageView"
+                android:text="mobile" />
+            <TextView
+                android:id="@+id/whomtomeetId"
+                android:textStyle="bold|italic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/visitorFlatId"
+                android:layout_toRightOf="@+id/imageView"
+                android:text="mobile" />
+
+            <TextView
+                android:id="@+id/visitorNumberId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/visitorFlatId"
+
+                android:text="" />
+
+            <ImageView
+
+                android:id="@+id/callImageId"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="29dp"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/phoneicon"
+                />
+
+           <ImageView
+               android:id="@+id/visitorstatusId"
+               android:layout_width="15dp"
+               android:layout_height="15dp"
+            android:background="@drawable/inicon"
+               android:layout_alignParentLeft="true"
+               android:layout_marginRight="8dp"
+               />
+            <TextView
+                android:id="@+id/vintimeId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:textStyle="italic"
+                android:layout_marginRight="8dp"
+                android:text="in time"
+                />
+        </RelativeLayout>
+
+
+
+</LinearLayout>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey"
+    >
+
+
+    <RelativeLayout
+        android:padding="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <EditText
+        android:id="@+id/queEditId"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/rounded_edittext"
+        android:hint="Enter your Poll Question" />
+        <LinearLayout
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/queEditId"
+            android:background="@color/grey"
+            android:id="@+id/plinearLayoutDecisions"
+            android:layout_marginBottom="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:orientation="vertical"
+
+            >
+
+
+
+    </LinearLayout>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_alignBottom="@+id/plinearLayoutDecisions"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/plusicon1"
+           android:layout_marginBottom="70dp"
+            android:layout_marginRight="50dp"
+            app:elevation="6dp"
+            />
+        <Button
+            android:id="@+id/button"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="503dp"
+            android:background="@color/colorPrimary"
+            android:text="Create Poll"
+            android:textColor="@android:color/background_light"
+            android:textSize="18sp" />
+
+
+    </RelativeLayout>
+</RelativeLayout>

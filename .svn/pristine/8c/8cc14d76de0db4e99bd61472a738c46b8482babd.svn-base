@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/grad_bg">
+
+        <ImageView
+            android:id="@+id/backid"
+            android:layout_width="35dp"
+            android:layout_height="40dp"
+            android:background="@drawable/backarrow"
+            android:layout_marginLeft="10dp"
+            android:onClick="finishAcitvity" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Filter Visitor"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="85dp"
+            android:layout_gravity="center"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="20dp" />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/genderId"
+                android:layout_marginTop="50dp"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Gender"
+                    android:textSize="20sp"
+                    android:layout_marginLeft="5dp" />
+
+                <RadioGroup
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_centerInParent="true"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true">
+
+                    <RadioButton
+                        android:layout_marginLeft="45dp"
+                        android:id="@+id/maleid"
+                        android:textColor="@color/black"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Male"
+                        android:textSize="18sp" />
+
+                    <RadioButton
+                        android:textColor="@color/black"
+                        android:layout_marginLeft="35dp"
+                        android:id="@+id/femaleid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Female"
+                        android:textSize="18sp" />
+
+                </RadioGroup>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_below="@+id/genderId"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@color/white"
+                android:id="@+id/accId">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Accesories"
+                    android:textSize="20sp"
+                    android:layout_marginLeft="5dp" />
+
+                <RadioGroup
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_centerInParent="true"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true">
+
+                    <RadioButton
+                        android:textColor="@color/black"
+                        android:layout_marginLeft="45dp"
+                        android:id="@+id/specs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Glasses"
+                        android:textSize="18sp" />
+
+                    <RadioButton
+                        android:textColor="@color/black"
+                        android:layout_marginLeft="20dp"
+                        android:id="@+id/nospecs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No glasses"
+                        android:textSize="18sp" />
+
+                </RadioGroup>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_below="@+id/accId"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@color/white"
+                android:id="@+id/facialHairid">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Facial Hair"
+                    android:textSize="20sp"
+                    android:layout_marginLeft="5dp" />
+
+                <RadioGroup
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_centerInParent="true"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true">
+
+                    <RadioButton
+                        android:textColor="@color/black"
+                        android:layout_marginLeft="45dp"
+                        android:id="@+id/headCoverYesId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Yes"
+                        android:textSize="18sp" />
+
+                    <RadioButton
+                        android:textColor="@color/black"
+                        android:layout_marginLeft="55dp"
+                        android:id="@+id/headCoverNoId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No"
+                        android:textSize="18sp" />
+
+                </RadioGroup>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_below="@+id/facialHairid"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@color/white"
+                android:id="@+id/headid">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Head Cover"
+                    android:textSize="20sp"
+                    android:layout_marginLeft="5dp" />
+
+                <RadioGroup
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_centerInParent="true"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true">
+
+                    <RadioButton
+                        android:textColor="@color/black"
+                        android:layout_marginLeft="45dp"
+                        android:id="@+id/facialHairYesId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Yes"
+                        android:textSize="18sp" />
+
+                    <RadioButton
+                        android:textColor="@color/black"
+                        android:layout_marginLeft="55dp"
+                        android:id="@+id/facialHairNoId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No"
+                        android:textSize="18sp" />
+
+                </RadioGroup>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_below="@+id/headid"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@color/white"
+                android:id="@+id/baldid">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bald"
+                    android:textSize="20sp"
+                    android:layout_marginLeft="5dp" />
+
+                <RadioGroup
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_centerInParent="true"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true">
+
+                    <RadioButton
+                        android:textColor="@color/black"
+                        android:layout_marginLeft="45dp"
+                        android:id="@+id/baldYesId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Yes"
+                        android:textSize="18sp" />
+
+                    <RadioButton
+                        android:textColor="@color/black"
+                        android:layout_marginLeft="55dp"
+                        android:id="@+id/baldNoId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No"
+                        android:textSize="18sp" />
+
+                </RadioGroup>
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/applyButton"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Apply"
+        android:textSize="20dp"
+
+        android:background="@color/green"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/white" />
+
+</RelativeLayout>

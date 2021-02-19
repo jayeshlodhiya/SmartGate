@@ -1,0 +1,415 @@
+package com.payphi.visitorsregister;
+
+import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.dd.processbutton.iml.ActionProcessButton;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.google.gson.Gson;
+import com.payphi.visitorsregister.model.User;
+import com.payphi.visitorsregister.utils.ProgressGenerator;
+import com.payphi.visitorsregister.utils.SharedPrefManager;
+import com.soundcloud.android.crop.Crop;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
+public class User_Profile extends AppCompatActivity implements ProgressGenerator.OnCompleteListener {
+  //dfgdfgffh
+  CircleImageView imageView;
+    TextView name;
+    ImageView backarrow, imagepicker, editprofile;
+    EditText email, mobileNo, flatno, work, editname;
+    String ework;
+    EditText pwork;
+    String PREF_NAME = "sosessionPref";
+    int PRIVATE_MODE = 0;
+    String socityCode = "";
+    final int PIC_CROP = 2;
+    SharedPreferences sharedPreferences;
+    SharedPrefManager sharedPrefManager;
+    Uri destinationuri;
+
+    User user = new User();
+    ;
+
+    ProgressGenerator progressGenerator;
+    ActionProcessButton btnSave;
+    String imageEncoded;
+    Button savebutton;
+    String ename, mobileno, flatNo;
+    public static final String EXTRAS_ENDLESS_MODE = "EXTRAS_ENDLESS_MODE";
+    byte[] imagedata;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.user_profile_layout);
+        sharedPrefManager = new SharedPrefManager(this);
+        sharedPreferences = getApplicationContext().getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+        imageView = (CircleImageView) findViewById(R.id.profileImageid);
+        // email = (EditText) findViewById(R.id.idprofileemailId);
+        mobileNo = (EditText) findViewById(R.id.profilephid);
+        name = (TextView) findViewById(R.id.profile_name);
+        flatno = (EditText) findViewById(R.id.flatnumberid);
+        pwork = (EditText) findViewById(R.id.workid);
+        backarrow = (ImageView) findViewById(R.id.backid);
+        imagepicker = (ImageView) findViewById(R.id.imagepickerId);
+        editprofile = (ImageView) findViewById(R.id.editimageid);
+        editname = (EditText) findViewById(R.id.idprofilenamelId);
+        savebutton = (Button) findViewById(R.id.saveProfileId);
+//        /
+        // imagepicker.setVisibility(View.INVISIBLE);
+        //
+        progressGenerator = new ProgressGenerator(this);
+        btnSave = (ActionProcessButton) findViewById(R.id.btnsave);
+        btnSave.setMode(ActionProcessButton.Mode.PROGRESS);
+
+        socityCode = sharedPreferences.getString("SOC_CODE", null); //sharedPrefManager.getSocityCode();
+        GetUserData();
+        ChangeState(false);
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                progressGenerator.start(btnSave);
+                btnSave.setEnabled(false);
+                ename = editname.getText().toString();
+                ework = pwork.getText().toString();
+                mobileno = mobileNo.getText().toString();
+                flatNo = flatno.getText().toString();
+                if (user.getRole().equals("S")) {
+                    flatNo = "";
+                }
+                if (ename == null || ename.equals("")) {
+                    Toast.makeText(getApplicationContext(), "Please Enter Name", Toast.LENGTH_LONG).show();
+                    return;
+                } else if (ework == null || ework.equals("")) {
+                    Toast.makeText(getApplicationContext(), "Please enter Work", Toast.LENGTH_LONG).show();
+                    return;
+                } else if (mobileno == null || mobileno.equals("")) {
+                    Toast.makeText(getApplicationContext(), "Please Enter Mobile Number", Toast.LENGTH_LONG).show();
+                    return;
+                } else if (user.getRole().equals("R")) {
+                    if (flatNo == null || flatNo.equals("")) {
+                        Toast.makeText(getApplicationContext(), "Please Enter Flat  number", Toast.LENGTH_LONG).show();
+                        return;
+                    } else {
+                        SaveProfileData();
+                    }
+                } else {
+                    SaveProfileData();
+                }
+
+            }
+        });
+    }
+
+    private void GetUserData() {
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference docRef = db.collection(socityCode).document("UserDoc").collection("Sousers");
+        docRef.whereEqualTo("Email", sharedPrefManager.getUserEmail()).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            //   docRef.addOnCompleteListener(getActivity(),new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                int size = documentSnapshots.getDocuments().size();
+                System.out.println("Documents size=" + size);
+                for (DocumentSnapshot documentSnapshot : documentSnapshots.getDocuments()) {
+                    //System.out.println("Documents data==="+documentSnapshot.getData().toString());
+                    SaveUserData(documentSnapshot);
+                    //            UpdateDeviceId();
+                }
+            }
+        });
+    }
+
+    private void SaveUserData(DocumentSnapshot documentSnapshot) {
+
+        user.setFlatNo(documentSnapshot.getString("FlatNumber"));
+        user.setMobileNumber(documentSnapshot.getString("MobileNumber"));
+        user.setRole(documentSnapshot.getString("Role"));
+        user.setFullName(documentSnapshot.getString("Name"));
+        user.setDocId(documentSnapshot.getString("DocId"));
+        user.setPhoto(documentSnapshot.getString("Photo"));
+        user.setEmail(documentSnapshot.getString("Email"));
+        user.setWork(documentSnapshot.getString("Work"));
+
+        SharedPreferences.Editor prefsEditor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(user);
+        prefsEditor.putString("UserObj", json);
+        prefsEditor.commit();
+
+        SetProfile();
+
+    }
+
+    private void SetProfile() {
+        if (user.getPhoto().contains(".jpg")) {
+            Glide.with(this)
+                    .load(user.getPhoto())
+                    .into(imageView);
+        } else {
+            if (!this.isFinishing()) {
+                Glide.with(getApplicationContext())
+                        .load(user.getPhoto())
+                        .into(imageView);
+            }
+        /*    Bitmap src;
+            byte[] decodedString = Base64.decode(user.getPhoto(), Base64.DEFAULT);
+            src = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            imageView.setImageBitmap(src);*/
+        }
+
+
+        //email.setText(user.getEmail());
+        mobileNo.setText(user.getMobileNumber());
+        name.setText(user.getFullName());
+        editname.setText(user.getFullName());
+        flatno.setText(user.getFlatNo());
+        pwork.setText(user.getWork());
+    }
+
+    public void finishAcitvity(View view) {
+        this.finish();
+    }
+
+
+    public void pickImage(View view) {
+/*        Intent intent = new Intent(Intent.ACTION_PICK,
+                MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        intent.setType("image*//*");
+        intent.putExtra("crop", "true");
+        intent.putExtra("scale", true);
+        intent.putExtra("outputX", 256);
+        intent.putExtra("outputY", 256);
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        intent.putExtra("return-data", true);
+        startActivityForResult(intent, 1);*/
+
+        Crop.pickImage(this);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Crop.REQUEST_PICK && resultCode == RESULT_OK) {
+            beginCrop(data.getData());
+        } else if (requestCode == Crop.REQUEST_CROP) {
+            handleCrop(resultCode, data);
+        }
+    }
+
+    private void beginCrop(Uri source) {
+        Uri destination = Uri.fromFile(new File(getCacheDir(), "cropped"));
+        Crop.of(source, destination).asSquare().start(this);
+    }
+
+    private void handleCrop(int resultCode, Intent result) {
+        if (resultCode == RESULT_OK) {
+            //       resultView.setImageURI(Crop.getOutput(result));
+            Uri uri = Crop.getOutput(result);
+//            Toast.makeText(this, "Done!!", Toast.LENGTH_SHORT).show();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+                encodeBitmapAndSaveToFirebase(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if (resultCode == Crop.RESULT_ERROR) {
+            Toast.makeText(this, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void encodeBitmapAndSaveToFirebase(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        // imageEncoded = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
+        imagedata = baos.toByteArray();
+        UploadProfilePic();
+        //   System.out.println("Image string=="+imageEncoded);
+    }
+
+    private void UploadProfilePic() {
+    /*    DocumentReference bookingref = FirebaseFirestore.getInstance().collection(socityCode).document("UserDoc").collection("Sousers").document(user.getDocId());
+        System.out.println("imageEncoded==" + imageEncoded);
+        bookingref.update("Photo", imageEncoded).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                System.out.println("photo uploded");
+            }
+        });*/
+        final ProgressDialog dialog;
+        dialog = new ProgressDialog(this);
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setMessage("Uploading please wait..");
+        dialog.setIndeterminate(true);
+        dialog.setCanceledOnTouchOutside(false);
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+        final StorageReference ref = storageRef.child(socityCode + "profilepic/" + user.getDocId());
+        UploadTask uploadTask = ref.putBytes(imagedata);
+        dialog.show();
+
+        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
+                }
+
+                // Continue with the task to get the download URL
+                return ref.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    Uri downloadUri = task.getResult();
+                    String downloadUriString = downloadUri.toString();
+                    DocumentReference bookingref = FirebaseFirestore.getInstance().collection(socityCode).document("UserDoc").collection("Sousers").document(user.getDocId());
+                    System.out.println("imageEncoded==" + imageEncoded);
+                    bookingref.update("Photo", downloadUriString).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            System.out.println("photo uploded");
+                            dialog.dismiss();
+                        }
+                    });
+                    System.out.println("Download uri=" + downloadUri);
+                } else {
+                    // Handle failures
+                    // ...
+                }
+            }
+        });
+
+    }
+
+    private Uri getImageUri(Context context, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
+    private void performCrop(Uri picUri) {
+        try {
+            Intent cropIntent = new Intent("com.android.camera.action.CROP");
+            // indicate image type and Uri
+            cropIntent.setDataAndType(picUri, "image/*");
+            // set crop properties here
+            cropIntent.putExtra("crop", true);
+            // indicate aspect of desired crop
+            cropIntent.putExtra("aspectX", 1);
+            cropIntent.putExtra("aspectY", 1);
+            // indicate output X and Y
+            cropIntent.putExtra("outputX", 128);
+            cropIntent.putExtra("outputY", 128);
+            // retrieve data on return
+            cropIntent.putExtra("return-data", true);
+            // start the activity - we handle returning in onActivityResult
+            startActivityForResult(cropIntent, PIC_CROP);
+        }
+        // respond to users whose devices do not support the crop action
+        catch (ActivityNotFoundException anfe) {
+            // display an error message
+            String errorMessage = "Whoops - your device doesn't support the crop action!";
+            Toast toast = Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT);
+            toast.show();
+        }
+    }
+
+    public void EditDetails(View view) {
+        btnSave.setVisibility(View.VISIBLE);
+        editprofile.setVisibility(View.INVISIBLE);
+
+        ChangeState(true);
+    }
+
+    private void ChangeState(boolean flag) {
+        pwork.setEnabled(flag);
+        mobileNo.setEnabled(flag);
+        flatno.setEnabled(flag);
+        editname.setEnabled(flag);
+
+
+        //pwork.setBackgroundResource(R.drawable.round_edittext_white);
+
+    }
+
+    public void SaveProfle(View view) {
+
+    }
+
+
+    @Override
+    public void onComplete() {
+
+    }
+
+    public void SaveProfileData() {
+        DocumentReference bookingref = FirebaseFirestore.getInstance().collection(socityCode).document("UserDoc").collection("Sousers").document(user.getDocId());
+        System.out.println("imageEncoded==" + imageEncoded);
+        bookingref.update("Name", ename).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                System.out.println("Name saved");
+            }
+        });
+
+        bookingref.update("Work", ework).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                System.out.println("work saved");
+            }
+        });
+
+        bookingref.update("MobileNumber", mobileno).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                System.out.println("mobile no  saved");
+            }
+        });
+        bookingref.update("FlatNumber", flatNo).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                System.out.println("flat number saved");
+            }
+        });
+
+    }
+
+
+}

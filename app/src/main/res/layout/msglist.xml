@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/leftchatLayoutId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+       android:layout_marginTop="3dp"
+        android:layout_marginLeft="4dp"
+        android:background="@drawable/left_background"
+        android:layout_alignParentTop="true">
+
+        <TextView
+            android:id="@+id/userNameId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/leftText"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="-12dp"
+            android:gravity="right"
+            android:textStyle="italic"
+            android:text="User Name"
+            android:textSize="10dp" />
+        <View
+            android:visibility="invisible"
+            android:id="@+id/lineid"
+            android:layout_below="@+id/userNameId"
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginBottom="3dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/gray"/>
+
+        <TextView
+
+            android:id="@+id/leftText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+           android:padding="10dp"
+android:layout_marginTop="15dp"
+
+            android:text="Hello this is me!!"
+            android:textColor="#212121" />
+    </RelativeLayout>
+
+    <android.support.v7.widget.CardView
+
+        android:layout_below="@+id/leftchatLayoutId"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/card_view"
+        android:layout_width="250dp"
+        android:layout_height="200dp"
+        android:layout_marginRight="10dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="10dp"
+        app:cardUseCompatPadding="true"
+        app:elevation="0dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/botimageid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+
+    <TextView
+        android:id="@+id/rightText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_alignParentEnd="true"
+        android:text="Hi!! How are you!!"
+        android:background="@drawable/right_background"
+
+        android:padding="8dp"
+        android:elevation="2dp" />
+
+    <TextView
+        android:id="@+id/shareqrid"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Share"
+        android:padding="8dp"
+
+        android:textAlignment="center"
+        android:background="@drawable/left_background"
+
+
+        android:layout_below="@+id/card_view"
+        android:layout_alignEnd="@+id/card_view"
+        android:layout_alignStart="@+id/card_view" />
+
+
+</RelativeLayout>

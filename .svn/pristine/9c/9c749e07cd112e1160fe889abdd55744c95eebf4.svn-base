@@ -1,0 +1,57 @@
+<RelativeLayout android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:background="@color/gray"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <!-- TODO: Update blank fragment layout -->
+
+
+    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/cswiperefresh"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <LinearLayout
+        android:id="@+id/searchbox"
+        android:layout_width="match_parent"
+        android:layout_marginTop="5dp"
+        android:padding="5dp"
+
+        android:layout_marginRight="5dp"
+
+        android:background="@drawable/rounded_edittext"
+        android:layout_height="50dp">
+
+        <EditText
+            android:id="@+id/searchboxid"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:ems="10"
+
+
+            android:hint="Search by Name/Flat no/Date"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/rounded_edittext" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+
+        android:id="@+id/crecycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:scrollbars="vertical"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/searchbox" />
+
+
+</RelativeLayout>

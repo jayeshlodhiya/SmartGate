@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/headerId"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:padding="5dp"
+
+        android:background="@color/green"
+        >
+
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:layout_marginLeft="5dp"
+
+            android:layout_centerInParent="true"
+            android:text="Mobile Verification"
+            android:id="@+id/textView2" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:background="@color/gray"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:id="@+id/optionId"
+        android:layout_below="@+id/headerId"
+        >
+        <RadioGroup
+            android:id="@+id/radioGrpid"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:button="@drawable/smsicon"
+                android:id="@+id/radiomsgId"
+                android:layout_width="60dp"
+                android:tag="sms"
+                android:layout_height="60dp" />
+
+            <RadioButton
+                android:tag="phone"
+                android:button="@drawable/phoneicon"
+                android:id="@+id/radiophId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+
+
+        </RadioGroup>
+
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_below="@+id/optionId"
+        android:layout_width="match_parent"
+
+
+        android:layout_height="100dp"
+        android:id="@+id/relativeLayout2">
+        <EditText
+            android:layout_centerInParent="true"
+            android:id="@+id/otpId"
+
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:hint="Enter OTP"
+            />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/vButtonId"
+        android:background="@drawable/rounded_button_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:text="Verify"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:gravity="center"
+         android:textColor="@color/white"
+        android:layout_below="@+id/relativeLayout2"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>

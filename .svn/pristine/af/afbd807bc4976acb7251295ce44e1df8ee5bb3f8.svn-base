@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    tools:context="com.payphi.visitorsregister.Vendor.VendorActivity">
+
+    <RelativeLayout
+        android:id="@+id/regheaderId"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:elevation="5dp"
+
+        android:background="@color/teal_600"
+        android:orientation="horizontal"
+
+        >
+
+        <ImageView
+            android:id="@+id/scanId"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/scanticket1"
+            android:layout_marginTop="13dp"
+            android:visibility="gone"
+            android:layout_marginLeft="310dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Manage Vendors"
+            android:gravity="center"
+            android:textColor="#fff"
+            android:textAllCaps="true"
+            android:layout_marginTop="15dp"
+            android:textSize="15dp"
+            android:layout_marginLeft="120dp"
+            android:layout_gravity="center" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/back"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="3dp" />
+    </RelativeLayout>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/vendortabsId"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+
+        app:tabGravity="fill"
+        android:layout_below="@+id/regheaderId"
+        android:background="@color/white"
+        app:tabIndicatorColor="@color/green"
+        app:tabIndicatorHeight="3dp"
+        app:tabSelectedTextColor="@color/light_black"
+        app:tabMode="fixed" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vendorviewpager"
+        android:background="@color/gray"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp" />
+
+
+</RelativeLayout>

@@ -1,0 +1,225 @@
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        tools:context=".MainActivity">
+
+
+        <EditText
+            android:id="@+id/vNameId"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:hint="Name"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
+            android:inputType="text"
+            android:textSize="17sp"
+
+            android:background="@drawable/rounded_edittext"
+            android:ems="10">
+
+            <requestFocus />
+        </EditText>
+
+
+        <EditText
+            android:id="@+id/mobileId"
+            android:background="@drawable/rounded_edittext"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/vNameId"
+            android:layout_margin="10dp"
+            android:maxLength="10"
+            android:hint="Mobile Number"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
+            android:inputType="number"
+            android:textSize="17sp"
+            android:ems="10">
+
+        </EditText>
+
+        <TextView
+            android:id="@+id/verifyId"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="80dp"
+            android:text="Verify"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textStyle="italic"
+            android:textColorLink="@color/blue"
+            android:background="@drawable/rounded_button_settings"
+
+            />
+
+        <ImageView
+            android:id="@+id/verifyiconId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="80dp"
+            android:background="@drawable/verifiedicon" />
+
+        <EditText
+            android:id="@+id/flatId"
+            android:background="@drawable/rounded_edittext"
+            android:layout_width="fill_parent"
+            android:layout_margin="10dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/mobileId"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
+            android:hint="Flat Number"
+            android:inputType="text"
+            android:textSize="17sp"
+            android:ems="10"></EditText>
+
+
+        <EditText
+
+            android:id="@+id/inTimeId"
+            android:background="@drawable/rounded_edittext"
+            android:layout_width="fill_parent"
+            android:layout_margin="10dp"
+            android:visibility="gone"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="15dp"
+            android:layout_below="@+id/flatId"
+            android:hint="Enter In Time"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
+            android:inputType="text"
+            android:textSize="17sp"
+            android:ems="10"></EditText>
+
+        <EditText
+
+            android:id="@+id/purposeId"
+            android:background="@drawable/rounded_edittext"
+            android:layout_width="fill_parent"
+            android:layout_margin="10dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="15dp"
+            android:layout_below="@+id/inTimeId"
+            android:hint="Purpose"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
+            android:inputType="text"
+            android:textSize="17sp"
+            android:ems="10"></EditText>
+
+        <EditText
+
+            android:id="@+id/addressId"
+            android:background="@drawable/rounded_edittext"
+            android:layout_width="fill_parent"
+            android:layout_margin="10dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="15dp"
+            android:layout_below="@+id/purposeId"
+            android:hint="Address"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
+            android:inputType="text"
+            android:textSize="17sp"
+            android:ems="10"></EditText>
+
+        <EditText
+
+            android:id="@+id/whomId"
+            android:background="@drawable/rounded_edittext"
+            android:layout_width="fill_parent"
+            android:layout_margin="10dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="15dp"
+            android:layout_below="@+id/addressId"
+            android:hint="Whom to meet"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
+            android:inputType="text"
+            android:textSize="17sp"
+            android:ems="10"></EditText>
+
+        <EditText
+
+            android:id="@+id/vehicalId"
+            android:background="@drawable/rounded_edittext"
+            android:layout_width="fill_parent"
+            android:layout_margin="10dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="15dp"
+            android:layout_below="@+id/whomId"
+            android:hint="Vehicle Number"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
+            android:inputType="text"
+            android:textSize="17sp"
+            android:ems="10"></EditText>
+
+
+        <ImageView
+            android:id="@+id/imgId"
+            android:layout_width="200dp"
+            android:layout_height="190dp"
+            android:layout_marginTop="43dp"
+            android:layout_below="@+id/vehicalId"
+            android:layout_centerHorizontal="true" />
+
+
+        <Button
+            android:id="@+id/button_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/green"
+            android:padding="8dp"
+            android:text="Register"
+
+            android:onClick="onbuttonProceedClick"
+            android:textColor="#fff"
+            android:layout_marginTop="120dp"
+            android:layout_below="@+id/imgId"
+            android:layout_gravity="bottom" />
+
+        <Button
+            android:id="@+id/button_sign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="sign"
+            android:visibility="gone"
+            android:layout_alignTop="@+id/takePic"
+            android:layout_alignRight="@+id/inTimeId"
+            android:layout_alignEnd="@+id/inTimeId" />
+
+        <ImageButton
+            android:id="@+id/takePic"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+
+            android:background="@drawable/cameraicon"
+            android:layout_alignTop="@+id/imgId"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp" />
+
+    </RelativeLayout>
+</ScrollView>

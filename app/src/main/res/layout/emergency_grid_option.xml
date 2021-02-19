@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/regheaderId"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:elevation="5dp"
+
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+
+        >
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="EMERGENCY"
+            android:gravity="center"
+            android:textColor="#fff"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="15dp"
+            android:textSize="18dp"
+            android:layout_marginLeft="120dp"
+            android:layout_gravity="center" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow_back_24dp"
+            android:layout_marginTop="10dp"
+            android:onClick="FinishGoBack"
+            android:layout_marginLeft="3dp" />
+    </RelativeLayout>
+    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/gridview"
+        android:layout_below="@+id/regheaderId"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:columnWidth="90dp"
+        android:numColumns="3"
+        android:verticalSpacing="10dp"
+        android:horizontalSpacing="10dp"
+        android:stretchMode="columnWidth"
+        android:gravity="center"
+        />
+    <TextView
+
+        android:id="@+id/msgid"
+        android:layout_below="@+id/gridview"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="match_parent"
+        android:textSize="25dp"
+        android:padding="10dp"
+        android:text="Hold 'Notify' button to notify all society members and security guards about the event "
+        android:layout_height="wrap_content">
+
+
+    </TextView>
+    <Button
+        android:id="@+id/notifybutton"
+        android:layout_width="wrap_content"
+        android:layout_below="@+id/msgid"
+        android:background="@color/colorPrimary"
+        android:text="Notify"
+        android:textColor="@color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content">
+
+    </Button>
+
+
+</RelativeLayout>

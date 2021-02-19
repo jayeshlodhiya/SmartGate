@@ -1,0 +1,68 @@
+package com.payphi.visitorsregister;
+
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.RelativeLayout;
+
+import com.payphi.visitorsregister.Auth.AuthActivity;
+
+public class Activity_Login extends AppCompatActivity {
+
+    RelativeLayout rellay1, rellay2;
+
+    Handler handler = new Handler();
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            rellay1.setVisibility(View.VISIBLE);
+            rellay2.setVisibility(View.VISIBLE);
+        }
+    };
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.splash_activity);
+
+        rellay1 = (RelativeLayout) findViewById(R.id.rellay1);
+        rellay2 = (RelativeLayout) findViewById(R.id.rellay2);
+
+        handler.postDelayed(runnable, 2000); //2000 is the timeout for the splash
+    }
+
+    private void CheckForLoggedIn() {
+        String PREF_NAME = "sosessionPref";
+        int PRIVATE_MODE = 0;
+        SharedPreferences sharedPreferences;
+        Intent intent = null;
+        sharedPreferences = this.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+        if (sharedPreferences.getBoolean("IS_LOGGED_IN", false == true) && sharedPreferences.getBoolean("IS_PROFILE_COMP", false == true)) {
+            //   showProgressDialog();
+            intent = new Intent(Activity_Login.this, HomeDashboard.class);
+            //  intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+
+        } else if (sharedPreferences.getBoolean("IS_LOGGED_IN", false) == false) {
+            intent = new Intent(Activity_Login.this, AuthActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+
+
+        } else if (sharedPreferences.getBoolean("IS_PROFILE_COMP", false) == false) {
+
+            //CheckUserExits();
+
+            intent = new Intent(Activity_Login.this, ProfieCompleteActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+
+
+        }
+
+
+        startActivity(intent);
+        Activity_Login.this.finish();
+
+    }
+}

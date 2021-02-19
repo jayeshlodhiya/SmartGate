@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#fff"
+    >
+    <TextView
+        android:id="@+id/textDialog"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#424242"
+        android:padding="24dp"
+        android:paddingLeft="24dp"
+        android:gravity="left"
+        android:textColor="#FFF"
+        android:text="Please enter your VPA"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="VPA"
+        android:textColor="#939393"
+        android:paddingLeft="24dp"
+        android:layout_marginTop="24dp"
+        android:id="@+id/textView"
+        android:layout_below="@+id/textDialog"
+        android:layout_centerHorizontal="true" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/vpaText"
+        android:layout_margin="24dp"
+        android:inputType="text"
+        android:textColor="#000"
+        android:layout_alignTop="@+id/textView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="26dp" />
+
+    <Button
+        android:id="@+id/confButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=" Submit "
+        android:background="#0592fa"
+        android:textColor="#FFF"
+        android:layout_below="@+id/vpaText"
+        android:layout_marginTop="8dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>

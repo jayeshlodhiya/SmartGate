@@ -1,0 +1,146 @@
+package com.payphi.visitorsregister.model;
+
+import java.io.Serializable;
+import java.util.HashMap;
+
+/**
+ * Created by Gino Osahon on 04/03/2017.
+ */
+
+public class User implements Serializable {
+
+    private String fullName;
+    private String photo;
+    private String email;
+    private HashMap<String, Object> timestampJoined;
+    private String DeviceId;
+    private String DocId;
+    private String emailId;
+    private String flatNo;
+    private String mobileNumber;
+    private String role;
+    private String work;
+    private String online;
+    private String rType;
+
+    public String getrType() {
+        return rType;
+    }
+
+    public void setrType(String rType) {
+        this.rType = rType;
+    }
+
+    public String getOnline() {
+        return online;
+    }
+
+    public void setOnline(String online) {
+        this.online = online;
+    }
+
+    public String getWork() {
+        return work;
+    }
+
+    public void setWork(String work) {
+        this.work = work;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setTimestampJoined(HashMap<String, Object> timestampJoined) {
+        this.timestampJoined = timestampJoined;
+    }
+
+    public String getDeviceId() {
+        return DeviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        DeviceId = deviceId;
+    }
+
+    public String getDocId() {
+        return DocId;
+    }
+
+    public void setDocId(String docId) {
+        DocId = docId;
+    }
+
+    public String getEmailId() {
+        return emailId;
+    }
+
+    public void setEmailId(String emailId) {
+        this.emailId = emailId;
+    }
+
+    public String getFlatNo() {
+        return flatNo;
+    }
+
+    public void setFlatNo(String flatNo) {
+        this.flatNo = flatNo;
+    }
+
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public User() {
+    }
+
+    /**
+     * Use this constructor to create new User.
+     * Takes user name, email and timestampJoined as params
+     *
+     * @param timestampJoined
+     */
+    public User(String mFullName, String mPhoneNo, String mEmail, HashMap<String, Object> timestampJoined) {
+        this.fullName = mFullName;
+        this.photo = mPhoneNo;
+        this.email = mEmail;
+        this.timestampJoined = timestampJoined;
+    }
+
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public HashMap<String, Object> getTimestampJoined() {
+        return timestampJoined;
+    }
+}
