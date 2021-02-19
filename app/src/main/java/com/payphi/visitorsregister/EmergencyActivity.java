@@ -19,6 +19,7 @@ import com.payphi.visitorsregister.adapters.EmergencyAdapter;
 import com.payphi.visitorsregister.model.User;
 
 public class EmergencyActivity extends AppCompatActivity {
+    //test
     RadioGroup radioGroup,radioGroup2;
     RadioButton animalButton,fireButton,medicalButton,liftButton,visitorButton;
   public static  String selectedText="";

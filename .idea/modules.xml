@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/VisitorRegisterSvnwc.iml" filepath="$PROJECT_DIR$/VisitorRegisterSvnwc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SmartGate.iml" filepath="$PROJECT_DIR$/SmartGate.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/customersdk-debug(intentv24)/customersdk-debug(intentv24).iml" filepath="$PROJECT_DIR$/customersdk-debug(intentv24)/customersdk-debug(intentv24).iml" />
       <module fileurl="file://$PROJECT_DIR$/dlib-release/dlib-release.iml" filepath="$PROJECT_DIR$/dlib-release/dlib-release.iml" />
