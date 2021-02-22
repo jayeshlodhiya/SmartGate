@@ -10,6 +10,7 @@
     >
 
     <ScrollView
+        android:id="@+id/scrollViewId"
         android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -21,10 +22,11 @@
             android:orientation="vertical">
 
             <RelativeLayout
+
                 android:id="@+id/headerlayoutid"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:elevation="13dp"
+
                 android:background="@color/colorPrimary"
                 android:orientation="horizontal">
 
@@ -73,11 +75,11 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="13dp"
                     android:visibility="visible"
-                    android:gravity="center"
+                    android:gravity="left"
 
                     android:text=" Name"
                     android:textAllCaps="true"
-                android:textColor="@color/white"
+                    android:textColor="@color/white"
 
                     android:textSize="20dp"
                     android:textStyle="bold|italic" />
@@ -89,7 +91,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/nameId"
                     android:layout_marginLeft="65dp"
-                   android:layout_centerInParent="true"
+                    android:layout_centerInParent="true"
                     android:gravity="center"
                     android:text="Email"
                     android:textSize="15dp"
@@ -115,18 +117,30 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="15dp"
 
-                    android:layout_marginRight="15dp"
+                    android:layout_marginRight="50dp"
                     android:layout_marginBottom="5dp"
                     android:background="@drawable/scanticket1" />
 
                 <ImageView
 
+                    android:id="@+id/logoutId"
+                    android:layout_width="28dp"
+                    android:layout_height="23dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="15dp"
+                    android:layout_alignRight="@+id/scanId"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/logouticon1" />
+
+                <ImageView
+                    android:visibility="gone"
                     android:id="@+id/alertNotifyId"
                     android:layout_width="30dp"
                     android:layout_height="25dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="15dp"
-                  android:layout_marginRight="60dp"
+
 
 
                     android:layout_marginBottom="5dp"
@@ -135,6 +149,7 @@
 
 
                 <ImageView
+                    android:visibility="gone"
                     android:layout_width="35dp"
                     android:layout_height="55dp"
                     android:layout_alignParentLeft="true"
@@ -243,6 +258,7 @@
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:orientation="vertical">
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -260,22 +276,73 @@
                         android:layout_alignParentBottom="true"/>
                 </RelativeLayout>
             </LinearLayout>
-            <com.white.progressview.HorizontalProgressView
-                android:id="@+id/progress100"
+            <android.support.percent.PercentRelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="15dp"
-                android:minWidth="0dp"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
+                android:layout_height="wrap_content">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:id="@+id/bg_top_header"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:background="@drawable/ic_bg_topheader"/>
+                <!--    <ImageView
+                        android:id="@+id/user_photo"
+                        android:layout_width="71dp"
+                        android:layout_height="71dp"
+                        android:layout_marginStart="26dp"
+                        android:layout_marginTop="24dp"
+                        android:src="@drawable/ic_photo_user"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />-->
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/headerprofileImage"
+                    android:layout_width="71dp"
+                    android:layout_marginTop="24dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_height="71dp"
+                    android:layout_marginStart="26dp"
+                    android:background="@drawable/circle"
+                    />
+
+                <TextView
+
+                    android:textSize="20sp"
+                    android:text=""
+                    android:id="@+id/user_name1"
+                    android:textColor="#ffffff"
+                    android:fontFamily="@font/mo_re"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginLeft="120dp"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    />
+
+                <TextView
+
+                    android:layout_below="@+id/user_name1"
+                    android:textSize="16sp"
+                    android:text=""
+                    android:gravity="center"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_alignRight="@+id/headerprofileImage"
+                    android:id="@+id/flatNoId"
+                    android:fontFamily="@font/mo_re"
+                    android:textColor="#ffffff"
 
 
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:progress="0"
-                app:progressReachColor="@color/green"
-                app:progressTextColor="@color/colorPrimaryDark"
-                app:progressTextVisible="true"
-                tools:ignore="MissingConstraints" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+            </android.support.percent.PercentRelativeLayout>
+
+
+
             <RelativeLayout
                 android:visibility="visible"
                 android:layout_marginTop="5dp"
@@ -285,12 +352,13 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
                     android:text="Expected Visitors"
                     android:textSize="12sp"
+                    android:textStyle="bold"
                     android:textAllCaps="true"
                     android:id="@+id/expedtedvisitorheadId" />
 
@@ -304,22 +372,55 @@
                 </android.support.v7.widget.RecyclerView>
 
             </RelativeLayout>
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginLeft="10dp"
+                android:text="Status"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:id="@+id/statusheadingid" />
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:elevation="10dp"
+                android:layout_height="wrap_content">
+
+                <com.white.progressview.HorizontalProgressView
+                    android:id="@+id/progress100"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:minWidth="0dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+
+
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:progress="0"
+                    app:progressReachColor="@color/green"
+                    app:progressTextColor="@color/colorPrimaryDark"
+                    app:progressTextVisible="true"
+                    tools:ignore="MissingConstraints" />
+            </android.support.percent.PercentRelativeLayout>
 
             <RelativeLayout
                 android:visibility="visible"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
 
                 android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10dp"
                     android:text="Recent Visitors"
                     android:textSize="12sp"
+                    android:textStyle="bold"
                     android:textAllCaps="true"
                     android:id="@+id/recentvisitorheadingid" />
 
@@ -333,7 +434,16 @@
                 </android.support.v7.widget.RecyclerView>
 
             </RelativeLayout>
-
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginLeft="10dp"
+                android:text="Services"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:id="@+id/otherServicesheadingid" />
             <LinearLayout
 
                 android:layout_marginTop="8dp"
@@ -341,14 +451,56 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
 
-                android:weightSum="2">
+                android:weightSum="3">
+                <android.support.v7.widget.CardView
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@color/cardColor"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="6dp">
 
+                    <LinearLayout
+                        android:onClick="OpenBookings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:layout_margin="14dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="36dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/newvisitoricon" />
+
+                        <TextView
+
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/mo_re"
+                            android:text="New Visitor"
+                            android:gravity="center"
+                            android:textColor="@color/textcardColor"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
                 <LinearLayout
+                    android:visibility="gone"
                     android:onClick="OpenBookings"
                     android:layout_width="0dp"
                     android:layout_height="120dp"
                     android:layout_weight="1"
-                    android:id="@+id/bookingcardId"
+
                     android:layout_margin="2dp"
                     android:orientation="vertical"
                     android:background="@color/colorGrapeFruit">
@@ -374,8 +526,92 @@
 
                 </LinearLayout>
 
+                <android.support.v7.widget.CardView
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="110dp"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@color/cardColor"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="6dp">
+
+                    <LinearLayout
+                        android:onClick="OpenRegiter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:layout_margin="14dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/visitorbook" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Visitor Registor"
+                            android:gravity="center"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/mo_re"
+                            android:textColor="@color/textcardColor"
+                            android:textSize="9sp"
+                            android:textStyle="bold"/>
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="110dp"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@color/cardColor"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="6dp">
+
+                    <LinearLayout
+                        android:onClick="OpenReports"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:layout_margin="14dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/pollicon"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Poll"
+                            android:gravity="center"
+                            android:layout_marginTop="8dp"
+                            android:fontFamily="@font/mo_re"
+                            android:textColor="@color/textcardColor"
+                            android:textSize="10sp"
+                            android:textStyle="bold"/>
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
                 <LinearLayout
-                     android:onClick="OpenRegiter"
+                    android:visibility="gone"
+                    android:onClick="OpenRegiter"
                     android:layout_width="0dp"
                     android:layout_height="120dp"
                     android:layout_weight="1"
@@ -436,10 +672,236 @@
 
 
             </LinearLayout>
+            <LinearLayout
 
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+
+                android:weightSum="3">
+                <android.support.v7.widget.CardView
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="110dp"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@color/cardColor"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="6dp">
+
+                    <LinearLayout
+                        android:onClick="OpenReports"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:layout_margin="14dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/membericon"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Member"
+                            android:layout_marginTop="8dp"
+                            android:fontFamily="@font/mo_re"
+                            android:textColor="@color/textcardColor"
+                            android:textSize="10dp"
+                            android:textStyle="bold"/>
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="110dp"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@color/cardColor"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="6dp">
+
+                    <LinearLayout
+                        android:onClick="RaisedAlarm"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:layout_margin="14dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/emergencyicon"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Alarm"
+                            android:gravity="center"
+                            android:layout_marginTop="8dp"
+                            android:fontFamily="@font/mo_re"
+                            android:textColor="@color/textcardColor"
+                            android:textSize="9sp"
+                            android:textStyle="bold"/>
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView
+                    android:visibility="invisible"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="110dp"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@color/cardColor"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="6dp">
+
+                    <LinearLayout
+                        android:onClick="OpenReports"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:layout_margin="14dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/membericon"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Member"
+                            android:layout_marginTop="8dp"
+                            android:fontFamily="@font/mo_re"
+                            android:textColor="@color/textcardColor"
+                            android:textSize="10dp"
+                            android:textStyle="bold"/>
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <LinearLayout
+                    android:visibility="gone"
+                    android:onClick="OpenBookings"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_weight="1"
+                    android:id="@+id/bookingcardId"
+                    android:layout_margin="2dp"
+                    android:orientation="vertical"
+                    android:background="@color/colorGrapeFruit">
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/visitor"
+                        android:tint="@color/colorWhite" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="8dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/colorGrapeFruitDark"
+                        android:text="New Visitor"
+                        android:textSize="18sp"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorWhite" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:visibility="gone"
+                    android:onClick="OpenRegiter"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_weight="1"
+                    android:layout_margin="2dp"
+                    android:orientation="vertical"
+                    android:background="@color/colorBitterSweet">
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/registerbook"
+                        android:tint="@color/colorWhite" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="8dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/colorBitterSweetDark"
+                        android:text="Visitor Registor"
+                        android:textSize="18sp"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorWhite" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:visibility="gone"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_weight="1"
+                    android:layout_margin="2dp"
+                    android:orientation="vertical"
+                    android:background="@color/colorFlower">
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/visitor"
+                        android:tint="@color/colorWhite" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="8dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/colorFlowerDark"
+                        android:text="Bowling"
+                        android:textSize="18sp"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorWhite" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
             <!-- Second Row-->
             <LinearLayout
-                android:visibility="visible"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -644,7 +1106,7 @@
             <!-- End Third Row-->
             <!-- fourth Row-->
             <LinearLayout
-                android:visibility="visible"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"

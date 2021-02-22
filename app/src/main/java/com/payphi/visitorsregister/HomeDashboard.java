@@ -39,6 +39,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -121,6 +122,7 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static com.payphi.visitorsregister.FirebaseNotification.Config.NOTIFICATION_ID;
 
 public class HomeDashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    ScrollView scrollView;
     private static final String TAG = "MainActivity";
     private ArrayList<String> permissionsToRequest;
     private ArrayList<String> permissionsRejected = new ArrayList<>();
@@ -130,10 +132,11 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
     LocationTrack locationTrack;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
-    ImageView backhead;
+    ImageView backhead,logoutImage;
+    TextView headingexpected,headingRecent,headingstatus;
     AlertDialog waitingvisitorDialog;
-     int size;
-    //vars
+    int size;
+    //vars file size
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mImageUrls = new ArrayList<>();
     public final static String AUTH_KEY_FCM = "AIzaSyB28LSaN0BW-iUbQw27ek0fHb4g2yLlaAs";
@@ -162,6 +165,7 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
     String PREF_NAME = "sosessionPref";
     int PRIVATE_MODE = 0;
     String socityCode = "";
+
     SharedPreferences sharedPreferences;
     SharedPrefManager sharedPrefManager;
     private CircleImageView mProfileImageView;
@@ -188,6 +192,7 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
     HorizontalProgressView horizontalProgressView;
     float totalVisitor=0;
     float totalIn=0,totalOut=0;
+    TextView userName,flatNo;
     //String svisitorpic="data:image/gif;base64,R0lGODlh9AH0AbMAAP///8z//8zM/8zMzJnMzGbMzGaZzGaZmTOZmTNmmQBmmQAAAAAAAAAAAAAAAAAAACH/C1hNUCBEYXRhWE1QPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS4zLWMwMTEgNjYuMTQ1NjYxLCAyMDEyLzAyLzA2LTE0OjU2OjI3ICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M2ICgxMy4wIDIwMTIwMzA1Lm0uNDE1IDIwMTIvMDMvMDU6MjE6MDA6MDApICAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDoxRDMzQUE3OTZGNjkxMUUxODAxN0UzQ0I1MkEzRTYyQiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDoxRDMzQUE3QTZGNjkxMUUxODAxN0UzQ0I1MkEzRTYyQiI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjFEMzNBQTc3NkY2OTExRTE4MDE3RTNDQjUyQTNFNjJCIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjFEMzNBQTc4NkY2OTExRTE4MDE3RTNDQjUyQTNFNjJCIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+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";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,6 +206,7 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
         slideshow.add("https://firebasestorage.googleapis.com/v0/b/test-184bf.appspot.com/o/maidalerts.png?alt=media&token=0a5b1955-db17-4fa6-8ea0-a70a3d8a9056");
         homeDashboard =  this;
         CheckInternet();
+
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         FirebaseApp.initializeApp(getApplicationContext());
         db = FirebaseFirestore.getInstance();
@@ -221,14 +227,14 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
 
         horizontalProgressView = (HorizontalProgressView) findViewById(R.id.progress100);
         horizontalProgressView.setTextVisible(true);
-      horizontalProgressView.setReachBarSize(6);
-      horizontalProgressView.setProgressPosition(HorizontalProgressView.CENTRE);
-      horizontalProgressView.setProgressInTime(0,2500);
+        horizontalProgressView.setReachBarSize(6);
+        horizontalProgressView.setProgressPosition(HorizontalProgressView.CENTRE);
+        horizontalProgressView.setProgressInTime(0,2500);
 // set progress from 20 to 100 with anim in 2500ms
 
+//fsdf
 
-//test comment
-
+        scrollView = (ScrollView) findViewById(R.id.scrollViewId);
         permissionsToRequest = findUnAskedPermissions(permissions);
         //getImages();
         //cardView =(CardView) findViewById(R.id.pendingReqcardId);
@@ -237,6 +243,7 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
         visitornew = (LinearLayout) findViewById(R.id.bookingcardId);
         notificationicon = (ImageView) findViewById(R.id.notificatioimageId);
         sendalertimage = (ImageView) findViewById(R.id.alertNotifyId);
+        mProfileImageView = (CircleImageView) findViewById(R.id.headerprofileImage);
         deviceId = FirebaseInstanceId.getInstance().getToken();
         System.out.println("Shop device Id=" + deviceId);
         linearLayout = (LinearLayout) findViewById(R.id.homelayoutId);
@@ -245,15 +252,29 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
         emailView = (TextView) findViewById(R.id.emailId);
         societyName = (TextView) findViewById(R.id.socnameId);
         sharedPreferences = getApplicationContext().getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+
         tv = (TextView) this.findViewById(R.id.badge_notification_4);
         tv.setSelected(true);  // Set focus to the textview
         qrImage = (ImageView) findViewById(R.id.scanId);
+        userName = (TextView) findViewById(R.id.user_name1);
+        flatNo = (TextView) findViewById(R.id.flatNoId);
+        headingexpected = (TextView) findViewById(R.id.expedtedvisitorheadId);
+        headingstatus = (TextView) findViewById(R.id.statusheadingid);
+        headingRecent = (TextView) findViewById(R.id.recentvisitorheadingid);
+        logoutImage =(ImageView) findViewById(R.id.logoutId);
+        logoutImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logOut();
+            }
+        });
         sharedPrefManager = new SharedPrefManager(mContext);
-    //    sharedPrefManager.saveSecurityCode(getApplicationContext(),"SPAS");
+        //    sharedPrefManager.saveSecurityCode(getApplicationContext(),"SPAS");
         socityCode = sharedPreferences.getString("SOC_CODE", null);
-
+        GetUserSavedData();
+        GetUserData();
         name = sharedPreferences.getString("NAME", null);
-      //  Toast.makeText(getApplicationContext(),name,Toast.LENGTH_LONG).show();
+        //  Toast.makeText(getApplicationContext(),name,Toast.LENGTH_LONG).show();
         //  String uri = sharedPrefManager.getPhoto();
         emailView.setText(sharedPrefManager.getUserEmail());
        /* Uri mPhotoUri = Uri.parse(uri);
@@ -273,20 +294,37 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
             }
         });
 
-        initNavigationDrawer();
-        GetUserData();
+        //initNavigationDrawer();
+
         GetSocInfo();
+        final View view = (View) findViewById(R.id.bg_top_header);
+       /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+                @Override
+                public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                    if(scrollY<=oldScrollY)
+                    {
+                        //scroll up
+                        view.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        view.setVisibility(View.INVISIBLE);}
+                }
+            });
+        }*/
         if(user!=null && user.getRole().equalsIgnoreCase("R")){
+
             CheckWaiting();
         }
-       // CheckWaiting();
+
+        // CheckWaiting();
 //        ShakeNotification();
         TempStoreDeviceId();
         SubscribeToTopic();
-       // initilizeShake();
+        // initilizeShake();
         GetCurrentLocation();
         init();
-      //  GetCurrentLocationLT();
+        //  GetCurrentLocationLT();
         //SendEMialTest();
         // Utils.SendEmail(this,"jglodhiya@gmail.com","Test from android","First emil from android");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -302,7 +340,7 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
             @Override
             public void onClick(View view) {
                 sound = "android.resource://" + getPackageName() + "/raw/alertsound";
-              //  openDialogBox();
+                //  openDialogBox();
                 Intent intent =  new Intent(getApplicationContext(),EmergencyActivity.class);
                 startActivity(intent);
             }
@@ -323,6 +361,9 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
         if(user!=null && user.getRole().equalsIgnoreCase("R")){
             horizontalProgressView.setVisibility(View.GONE);
         }
+        if(user!=null){
+
+        }
         /*if(user!=null){
             startService(new Intent(this, LocalService.class));
         }*/
@@ -331,9 +372,15 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
 
     private  void CheckInternet() {
         Utils utils = new Utils(getApplicationContext());
-      if(  !utils.isNetworkAvailable()){
-          Toast.makeText(getApplicationContext(),"No Internet Connection",Toast.LENGTH_LONG).show();
-      }
+        if(  !utils.isNetworkAvailable()){
+            Toast.makeText(getApplicationContext(),"No Internet Connection",Toast.LENGTH_LONG).show();
+        }
+    }
+    public void RaisedAlarm(View view){
+        sound = "android.resource://" + getPackageName() + "/raw/alertsound";
+        //  openDialogBox();
+        Intent intent =  new Intent(getApplicationContext(),EmergencyActivity.class);
+        startActivity(intent);
     }
 
     private void init() {
@@ -412,7 +459,7 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
 
     private void SubscribeToTopic() {
         FirebaseMessaging.getInstance().subscribeToTopic(socityCode);
-        }
+    }
 
     private void SendEMialTest() {
         List list = new ArrayList();
@@ -632,7 +679,7 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
     }
 
 
-   private void TakeAllDeviceId() {
+    private void TakeAllDeviceId() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference docRef = db.collection(socityCode).document("UserDoc").collection("Sousers");
         if(user.getRole().equalsIgnoreCase("R")){
@@ -685,12 +732,12 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
         editor.commit();
         //clearAppData();
 
-        drawerLayout.closeDrawers();
+//        drawerLayout.closeDrawers();
         Intent intent = new Intent(this, AuthActivity.class);
         startActivity(intent);
         //AuthActivity.getGoogleSignOut();
         //ClearData.getInstance().clearApplicationData();
-       // finish();
+        // finish();
 
     }
 
@@ -752,9 +799,9 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
     }
 
     public void clearPopup() {
-            if(waitingvisitorDialog!=null && waitingvisitorDialog.isShowing()){
-                waitingvisitorDialog.dismiss();
-            }
+        if(waitingvisitorDialog!=null && waitingvisitorDialog.isShowing()){
+            waitingvisitorDialog.dismiss();
+        }
     }
 
     public void RefreshData() {
@@ -772,8 +819,8 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
 
         @Override
         protected Void doInBackground(String... pParams) {
-          //  String deviceId = pParams[0];
-           // System.out.println("Sending to DeviceId=" + deviceId);
+            //  String deviceId = pParams[0];
+            // System.out.println("Sending to DeviceId=" + deviceId);
 
             //
             String authKey = AUTH_KEY_FCM; // You FCM AUTH key
@@ -792,7 +839,7 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
 
                 JSONObject json = new JSONObject();
                 json.put("to","/topics/"+socityCode);
-               // json.put("to",deviceId);
+                // json.put("to",deviceId);
                 JSONObject payload = new JSONObject();
                 JSONObject info = new JSONObject();
                 info.put("title", "Alert "); // Notification title
@@ -917,7 +964,7 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
     }
 
     private void LoadVisitorsList() {
-      //  socityCode="SPAS";
+        //  socityCode="SPAS";
         /*totalVisitor = 0;
         totalIn = 0;
         totalOut=0;*/
@@ -971,6 +1018,22 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
                         //  System.out.println("Documents data==="+documentSnapshot.getData().toString());
                         CreateVisitorsList(documentSnapshot);
                     }
+                    headingstatus.setVisibility(View.GONE);
+                    if(visitorsList.size()==0){
+                        headingRecent.setVisibility(View.GONE);
+                        // headingstatus.setVisibility(View.GONE);
+                        //horizontalProgressView.setVisibility(View.GONE);
+
+                    }else{
+                        headingRecent.setVisibility(View.VISIBLE);
+                        //   headingstatus.setVisibility(View.VISIBLE);
+                        // horizontalProgressView.setVisibility(View.VISIBLE);
+                    }
+                    if(expectedVisitorList.size()==0){
+                        headingexpected.setVisibility(View.GONE);
+                    }else{
+                        headingexpected.setVisibility(View.VISIBLE);
+                    }
                 }
             });
         } else if (user.getRole().equals("S")) {
@@ -987,7 +1050,7 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
                     totalOut=0;
                     if(documentSnapshots!=null){
                         size = documentSnapshots.getDocuments().size();
-                       // totalVisitor = size;
+                        // totalVisitor = size;
                     }
 
                     docSize = size;
@@ -1031,29 +1094,57 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
                             //  System.out.println("Documents data==="+documentSnapshot.getData().toString());
                             CreateVisitorsList(documentSnapshot);
                         }
+                        if(visitorsList.size()==0){
+                            headingRecent.setVisibility(View.GONE);
+                            headingstatus.setVisibility(View.GONE);
+                            horizontalProgressView.setVisibility(View.GONE);
+
+                        }else{
+                            headingRecent.setVisibility(View.VISIBLE);
+                            headingstatus.setVisibility(View.VISIBLE);
+                            horizontalProgressView.setVisibility(View.VISIBLE);
+                        }
+                        if(expectedVisitorList.size()==0){
+                            headingexpected.setVisibility(View.GONE);
+                        }else{
+                            headingexpected.setVisibility(View.VISIBLE);
+                        }
                         ShowProgress();
                     }
                 }
             });
         }
+
+
+
+
     }
 
     private void ShowProgress() {
 
-       // float per = Math.round((1/2));
-     float fper =   Math.round((totalIn/totalVisitor)*100);
-     int per = Integer.parseInt(String.format("%.0f", fper));
-       // horizontalProgressView.setMax(Integer.parseInt(String.format("%.0f", totalVisitor)));
+        // float per = Math.round((1/2));
+        float fper =   Math.round((totalIn/totalVisitor)*100);
+        int per = Integer.parseInt(String.format("%.0f", fper));
+        // horizontalProgressView.setMax(Integer.parseInt(String.format("%.0f", totalVisitor)));
         horizontalProgressView.setTextSuffix("%("+String.format("%.0f", totalIn)+"/"+String.format("%.0f", totalVisitor)+")");
-      //  horizontalProgressView.setReachBarColor(getResources().getColor(R.color.colorPrimary));
+        //  horizontalProgressView.setReachBarColor(getResources().getColor(R.color.colorPrimary));
         horizontalProgressView.setProgressInTime(0,per,2500);
 // reset current progress with anim in 2500ms
         horizontalProgressView.runProgressAnim(1000);
+
+
     }
+    private void GetUserSavedData() {
 
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("UserObj", "");
+        user = gson.fromJson(json, User.class);
+    }
     private void GetUserData() {
+        try {
 
-        socityCode = sharedPreferences.getString("SOC_CODE", null); //sharedPrefManager.getSocityCode();
+
+            socityCode = sharedPreferences.getString("SOC_CODE", null); //sharedPrefManager.getSocityCode();
             FirebaseFirestore db = FirebaseFirestore.getInstance();
 
             CollectionReference docRef = db.collection(socityCode).document("UserDoc").collection("Sousers");
@@ -1073,7 +1164,9 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
                 }
             });
 
+        }catch (Exception e){
 
+        }
     }
     private void GetSocInfo(){
         socityCode = sharedPreferences.getString("SOC_CODE", null); //sharedPrefManager.getSocityCode();
@@ -1089,8 +1182,8 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
                 System.out.println("Documents size=" + size);
                 for (DocumentSnapshot documentSnapshot : documentSnapshots.getDocuments()) {
                     //System.out.println("Documents data==="+documentSnapshot.getData().toString());
-                      SaveSocData(documentSnapshot);
-                    }
+                    SaveSocData(documentSnapshot);
+                }
             }
         });
 
@@ -1144,7 +1237,7 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
         LoadVisitorsList();
         initRecyclerView();
         SetProfile();
-       // startService(new Intent(this, LocalService.class));
+        // startService(new Intent(this, LocalService.class));
     }
 
     private void SetProfile() {
@@ -1177,7 +1270,11 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
             }catch (Exception e){
 
             }
+            userName.setText(user.getFullName());
+            if(user.getFlatNo()!=null && user.getFlatNo().equalsIgnoreCase("")){
 
+            }
+            flatNo.setText(user.getFlatNo());
             //    Glide.with(this).load(bitmapToByte(src)).asBitmap().into(mProfileImageView);
 //            Glide.with(this).load(bitmapToByte(src)).asBitmap().into(backhead);
            /* Picasso.with(mContext)
@@ -1199,7 +1296,7 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
         Matcher match = pt.matcher(email);
         while (match.find()) {
             String s = match.group();
-         //   email = email.replaceAll("\\" + s, "");
+            //   email = email.replaceAll("\\" + s, "");
         }
         return email;
     }
@@ -1229,7 +1326,7 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
         startActivity(intent);
         //Intent intent = new Intent(this, ComingSoonActivity.class);
         //startActivity(intent);
-       // Toast.makeText(this,"Coming soon!!",Toast.LENGTH_LONG).show();
+        // Toast.makeText(this,"Coming soon!!",Toast.LENGTH_LONG).show();
 
     }
 
@@ -1242,7 +1339,7 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
     }
 
     public void UserProfile(View view) {
-       // System.out.println("Clicked......................");
+        // System.out.println("Clicked......................");
         /*Intent intent = new Intent(this, User_Profile.class);
         startActivity(intent);*/
         //Toast.makeText(this,"Coming soon!!",Toast.LENGTH_LONG).show();
@@ -1253,24 +1350,24 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
     public void PayInvoice(View view){
         Intent intent = new Intent(this, ComingSoonActivity.class);
         //startActivity(intent);
-       // Intent intent = new Intent(this, AwsFaceDetection.class);
+        // Intent intent = new Intent(this, AwsFaceDetection.class);
         startActivity(intent);
-       // Toast.makeText(this,"Coming soon!!",Toast.LENGTH_LONG).show();
+        // Toast.makeText(this,"Coming soon!!",Toast.LENGTH_LONG).show();
     }
     public void OpenRegiter(View view){
         Intent intent = new Intent(this, RegisterBook.class);
         startActivity(intent);
-       // Toast.makeText(this,"Coming soon!!",Toast.LENGTH_LONG).show();
+        // Toast.makeText(this,"Coming soon!!",Toast.LENGTH_LONG).show();
     }
 
     public void testbeakon(View view) {
 
-      //  Intent intent = new Intent(this, BeaconActivity.class);
+        //  Intent intent = new Intent(this, BeaconActivity.class);
         //startActivity(intent);
     }
 
     public void manageVendor(View view) {
-       // Toast.makeText(this,"Coming soon!!",Toast.LENGTH_LONG).show();
+        // Toast.makeText(this,"Coming soon!!",Toast.LENGTH_LONG).show();
 /*        Intent intent = new Intent(this, VendorActivity.class);
         startActivity(intent);*/
         Intent intent = new Intent(this, ComingSoonActivity.class);
@@ -1376,7 +1473,7 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
 
     private void ShowWaitingPopUp(final Visitor visitor) {
         wiatingVisitors.put(visitor.getDocId(),visitor.getDocId());
-    // Toast.makeText(this,visitor.getVistorName()+" is Waiting at gate",Toast.LENGTH_LONG).show();
+        // Toast.makeText(this,visitor.getVistorName()+" is Waiting at gate",Toast.LENGTH_LONG).show();
         LayoutInflater factory = LayoutInflater.from(mContext);
         final View visitorDialogView = factory.inflate(R.layout.wiating_visitor_pop_up, null);
         waitingvisitorDialog = new AlertDialog.Builder(mContext).create();
@@ -1438,7 +1535,7 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
     }
 
     private void UpdateVisitorStatus(final String stat, String docId) {
-       final DocumentReference bookingref;
+        final DocumentReference bookingref;
         SharedPreferences sharedPreferences = getSharedPreferences("sosessionPref", Context.MODE_PRIVATE);
         String  socityCode = sharedPreferences.getString("SOC_CODE", null);
         final DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
@@ -1453,7 +1550,7 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         Toast.makeText(getApplicationContext(),"Visitor "+stat,Toast.LENGTH_LONG).show();
-  //                      waitingvisitorDialog.setCancelable(true);
+                        //                      waitingvisitorDialog.setCancelable(true);
                         waitingvisitorDialog.dismiss();
 
 
@@ -1541,7 +1638,7 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
     @Override
     protected void onResume() {
         super.onResume();
-      //  Refresh();
+        //  Refresh();
         //Toast.makeText(this,"Resumed",Toast.LENGTH_LONG).show();
     }
 
@@ -1553,4 +1650,6 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
         DocumentReference docRef = FirebaseFirestore.getInstance().collection(socityCode).document("UserDoc").collection("Sousers").document(user.getDocId());
         docRef.update("Online","No");
     }
+
+
 }

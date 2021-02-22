@@ -9,6 +9,8 @@
     <color name="black">#000000</color>
     <color name="lightgray">#ededed</color>
     <color name="testcolorblue">#152b38</color>
+    <color name="textcardColor">#3f3f3f</color>
+    <color name="cardColor">#ffffff</color>
     <color name="yello">#ffb300</color>
     <color name="green">#51d4a6</color>
     <color name="white">#fff</color>

@@ -932,7 +932,7 @@ public class RegisterFragment extends Fragment {
                 ClearData();
                 TakeDeviceIdByFlatNoOrName();
                 ShowWaitingPopup();
-                GetVisitorFeatures();
+                //GetVisitorFeatures();
 
                 //getImageStringFromVisitNumber(docId);
                 paydialog.dismiss();
