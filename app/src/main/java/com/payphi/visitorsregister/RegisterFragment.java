@@ -70,6 +70,7 @@ import com.payphi.visitorsregister.FaceRecognition.AwsFaceDetection;
 import com.payphi.visitorsregister.model.User;
 import com.payphi.visitorsregister.model.Visitor;
 import com.payphi.visitorsregister.utils.FragDetectionTaskActivity;
+import com.payphi.visitorsregister.utils.GMailSender;
 import com.payphi.visitorsregister.utils.Utils;
 
 import org.json.JSONObject;
@@ -272,6 +273,18 @@ public class RegisterFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread paramThread, Throwable paramThrowable) {
+                //Catch your exception
+                // Without System.exit() this will not work.
+                // System.exit(2);
+
+                //     Utils.SendEmail(getApplicationContext(),"jglodhiya@gmail.com","Exception",paramThrowable.getMessage());
+                GMailSender gMailSender =  new GMailSender();
+                gMailSender.sendMail("Exception",this.getClass().getName()+":"+paramThrowable.getMessage(),"jglodhiya@gmail.com","jglodhiya@gmail.com");
+            }
+        });
     }
 
 

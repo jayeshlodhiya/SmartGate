@@ -78,8 +78,7 @@ dependencies {
     //need to add in repository project
     implementation 'com.soundcloud.android:android-crop:1.0.1@aar'
     implementation 'com.microsoft.projectoxford:face:1.4.3'
-    compile files('libs/mail.jar')
-    compile files('libs/activation.jar')
+
     implementation 'ai.api:libai:1.6.11'
     compile project(':dlib-release')
     compile project(':libraryrelease')
@@ -91,6 +90,9 @@ dependencies {
     implementation 'com.amazonaws:aws-android-sdk-s3:2.11.+'
     implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.11.+'
     implementation 'com.amazonaws:aws-android-sdk-rekognition:2.10.0'
-    implementation 'com.android.support:percent:22.2.0'
+    implementation 'com.android.support:percent:25.4.0'
+    compile 'com.sun.mail:android-mail:1.5.5'
+    compile 'com.sun.mail:android-activation:1.5.5'
 }
 apply plugin: 'com.google.gms.google-services'
+

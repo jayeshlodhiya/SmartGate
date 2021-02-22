@@ -79,7 +79,7 @@ public class LocalService extends Service {
                 public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
                     if (documentSnapshot.exists()) {
                         //          Toast.makeText(getApplicationContext(),"Doc Updated=="+documentSnapshot.getString("DocId"),Toast.LENGTH_LONG).show();
-                        CheckAndCreateNotification(documentSnapshot);
+                        //CheckAndCreateNotification(documentSnapshot);
                     } else {
                         //Toast.makeText(getApplicationContext(),"No Document"+documentSnapshot.getString("DocId"),Toast.LENGTH_LONG).show();
                         HashMap map = new HashMap();
@@ -120,7 +120,7 @@ if(documentSnapshot.getString("DocId")!=null && !documentSnapshot.getString("Doc
         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
             DocumentSnapshot documentSnapshot1 = task.getResult();
             if (documentSnapshot1.getString("VisitorApprove").equalsIgnoreCase("waiting")) {
-                CreateNotification(documentSnapshot1);
+                //CreateNotification(documentSnapshot1);
             }
         }
     });

@@ -1,15 +1,16 @@
-/*
+
 package com.payphi.visitorsregister.utils;
 
-import android.app.Notification;
-import android.content.pm.PackageInstaller;
+import android.os.AsyncTask;
+
+import com.payphi.visitorsregister.RegisterFragment;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.net.PasswordAuthentication;
+
 import java.security.Security;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -17,30 +18,33 @@ import java.sql.SQLFeatureNotSupportedException;
 import java.util.Properties;
 import java.util.logging.Logger;
 
+
 import javax.activation.DataHandler;
+import javax.mail.Message;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.sql.DataSource;
 
-*/
-/**
- * Created by swapnil.g on 7/12/2018.
- *//*
+
+
+
 
 public class GMailSender extends javax.mail.Authenticator {
     private String mailhost = "smtp.gmail.com";
-    private String user;
-    private String password;
-    private PackageInstaller.Session session;
+    private   final String user="jglodhiya@gmail.com";
+    private String password="mobile21";
+    private Session session;
 
     static {
-        Security.addProvider(new com.provider.JSSEProvider());
+        Security.addProvider(new JSSEProvider());
     }
 
-    public GMailSender(String user, String password) {
-        this.user = user;
-        this.password = password;
+    public GMailSender() {
+       // user = user;
+
 
         Properties props = new Properties();
         props.setProperty("mail.transport.protocol", "smtp");
@@ -53,28 +57,34 @@ public class GMailSender extends javax.mail.Authenticator {
         props.put("mail.smtp.socketFactory.fallback", "false");
         props.setProperty("mail.smtp.quitwait", "false");
 
-        session = PackageInstaller.Session.getDefaultInstance(props, this);
+        session =  Session.getInstance(props,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(user, password);
+                    }
+                });
     }
 
-    protected PasswordAuthentication getPasswordAuthentication() {
+    protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
         return new PasswordAuthentication(user, password);
     }
 
-    public synchronized void sendMail(String subject, String body, String sender, String recipients) throws Exception {
-        try{
+    public synchronized void sendMail(String subject, String body, String sender, String recipients)  {
+       /* try{
             MimeMessage message = new MimeMessage(session);
-            DataHandler handler = new DataHandler((javax.activation.DataSource) new ByteArrayDataSource(body.getBytes(), "text/plain"));
+            //DataHandler handler = new DataHandler((javax.activation.DataSource) new ByteArrayDataSource(body.getBytes(), "text/plain"));
             message.setSender(new InternetAddress(sender));
             message.setSubject(subject);
-            message.setDataHandler(handler);
+          //  message.setDataHandler(handler);
             if (recipients.indexOf(',') > 0)
-                message.setRecipients(Notification.MessagingStyle.Message.RecipientType.TO, InternetAddress.parse(recipients));
+                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipients));
             else
-                message.setRecipient(Notification.MessagingStyle.Message.RecipientType.TO, new InternetAddress(recipients));
+                message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipients));
             Transport.send(message);
         }catch(Exception e){
-
-        }
+            e.printStackTrace();
+        }*/
+        SendMailAsync myAsyncTask = (SendMailAsync) new SendMailAsync().execute(body);
     }
 
     public class ByteArrayDataSource implements DataSource {
@@ -160,5 +170,31 @@ public class GMailSender extends javax.mail.Authenticator {
             return false;
         }
     }
+    class SendMailAsync extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            String body = strings[0];
+            //sendMail("Exception",body,,"jglodhiya@gmail.com");
+            try{
+                MimeMessage message = new MimeMessage(session);
+                //DataHandler handler = new DataHandler()
+                message.setSender(new InternetAddress("jglodhiya@gmail.com"));
+                message.setSubject("Exception");
+                message.setText(body);
+                  //message.setDataHandler(handler);
+
+                message.setRecipient(Message.RecipientType.TO, new InternetAddress("jglodhiya@gmail.com"));
+                Transport.send(message);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            return null;
+        }
+        public synchronized void sendMail(String subject, String body, String sender, String recipients)  {
+
+        }
+    }
+
 }
-*/
+

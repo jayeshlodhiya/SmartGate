@@ -78,6 +78,7 @@ import com.payphi.visitorsregister.model.User;
 import com.payphi.visitorsregister.model.Visitor;
 import com.payphi.visitorsregister.utils.ClearData;
 import com.payphi.visitorsregister.utils.DetectionActivity;
+import com.payphi.visitorsregister.utils.GMailSender;
 import com.payphi.visitorsregister.utils.SendMailTask;
 import com.payphi.visitorsregister.utils.ShakeListener;
 import com.payphi.visitorsregister.utils.SharedPrefManager;
@@ -199,6 +200,23 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activity_drawer);
 
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread paramThread, Throwable paramThrowable) {
+                //Catch your exception
+                // Without System.exit() this will not work.
+               // System.exit(2);
+
+           //     Utils.SendEmail(getApplicationContext(),"jglodhiya@gmail.com","Exception",paramThrowable.getMessage());
+               // Toast.makeText(getApplicationContext(),paramThrowable.getStackTrace().toString(),Toast.LENGTH_LONG).show();
+                GMailSender  gMailSender =  new GMailSender();
+             //   Log.d("exp=",paramThrowable.getCause().getMessage());
+                gMailSender.sendMail("Exception",this.getClass().getName()+":"+paramThrowable.getMessage(),"jglodhiya@gmail.com","jglodhiya@gmail.com");
+            }
+        });
+
+
+
         slideshow = new ArrayList<String>();
         slideshow.add("https://firebasestorage.googleapis.com/v0/b/test-184bf.appspot.com/o/reportsimage.png?alt=media&token=d829b066-0f0b-43d8-8408-1e8cbb2cd7f8");
         slideshow.add("https://firebasestorage.googleapis.com/v0/b/test-184bf.appspot.com/o/easyattendance.png?alt=media&token=6019c10d-e5b0-40cd-bd9b-3cfb97d74182");
@@ -295,7 +313,14 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
         });
 
         //initNavigationDrawer();
-
+     /*   try {
+            throw new Exception("Test");
+        } catch (Exception e) {
+            e.printStackTrace();
+           // Utils.SendEmail(getApplicationContext(),"jglodhiya@gmail.com","Exception",e.getMessage());
+            GMailSender gMailSender = new GMailSender();
+            gMailSender.sendMail("Exception",e.getMessage(),"jglodhiya@gmail.com","jglodhiya@gmail.com");
+        }*/
         GetSocInfo();
         final View view = (View) findViewById(R.id.bg_top_header);
        /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -1256,6 +1281,11 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
                     .into(backhead);
 
 */
+            userName.setText(user.getFullName());
+            if(user.getFlatNo()!=null && user.getFlatNo().equalsIgnoreCase("")){
+
+            }
+            flatNo.setText(user.getFlatNo());
         } else {
   /*          Bitmap src;
             byte[] decodedString = Base64.decode(user.getPhoto(), Base64.DEFAULT);
@@ -1645,10 +1675,10 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        SharedPreferences sharedPreferences = getSharedPreferences("sosessionPref", Context.MODE_PRIVATE);
+      /*  SharedPreferences sharedPreferences = getSharedPreferences("sosessionPref", Context.MODE_PRIVATE);
         String socityCode = sharedPreferences.getString("SOC_CODE", null);
         DocumentReference docRef = FirebaseFirestore.getInstance().collection(socityCode).document("UserDoc").collection("Sousers").document(user.getDocId());
-        docRef.update("Online","No");
+        docRef.update("Online","No");*/
     }
 
 

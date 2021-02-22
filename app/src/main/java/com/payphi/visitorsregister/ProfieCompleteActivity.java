@@ -35,6 +35,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.payphi.visitorsregister.utils.GMailSender;
 import com.payphi.visitorsregister.utils.SharedPrefManager;
 import com.squareup.picasso.Picasso;
 
@@ -65,6 +66,18 @@ public class ProfieCompleteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profie_complete);
         sharedPrefManager = new SharedPrefManager(this);
         context = this;
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread paramThread, Throwable paramThrowable) {
+                //Catch your exception
+                // Without System.exit() this will not work.
+                // System.exit(2);
+
+                //     Utils.SendEmail(getApplicationContext(),"jglodhiya@gmail.com","Exception",paramThrowable.getMessage());
+                GMailSender gMailSender =  new GMailSender();
+                gMailSender.sendMail("Exception",this.getClass().getName()+":"+paramThrowable.getMessage(),"jglodhiya@gmail.com","jglodhiya@gmail.com");
+            }
+        });
         CheckUserExits();
         mobile = (EditText) findViewById(R.id.commobileId);
         flat = (EditText) findViewById(R.id.comflatId);

@@ -33,6 +33,7 @@ import com.payphi.visitorsregister.FakeRingerActivity;
 import com.payphi.visitorsregister.MainActivity;
 import com.payphi.visitorsregister.R;
 import com.payphi.visitorsregister.model.User;
+import com.payphi.visitorsregister.utils.GMailSender;
 import com.payphi.visitorsregister.utils.TTS;
 
 import org.json.JSONException;
@@ -446,6 +447,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onCreate() {
         super.onCreate();
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread paramThread, Throwable paramThrowable) {
+                //Catch your exception
+                // Without System.exit() this will not work.
+                // System.exit(2);
 
+                //     Utils.SendEmail(getApplicationContext(),"jglodhiya@gmail.com","Exception",paramThrowable.getMessage());
+                GMailSender gMailSender =  new GMailSender();
+                gMailSender.sendMail("Exception",this.getClass().getName()+":"+paramThrowable.getMessage(),"jglodhiya@gmail.com","jglodhiya@gmail.com");
+            }
+        });
     }
 }

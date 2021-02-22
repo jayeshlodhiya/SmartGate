@@ -37,6 +37,7 @@ import com.payphi.visitorsregister.ProfieCompleteActivity;
 import com.payphi.visitorsregister.R;
 import com.payphi.visitorsregister.model.User;
 import com.payphi.visitorsregister.utils.Constants;
+import com.payphi.visitorsregister.utils.GMailSender;
 import com.payphi.visitorsregister.utils.SharedPrefManager;
 import com.payphi.visitorsregister.utils.Utils;
 
@@ -71,6 +72,18 @@ public class AuthActivity extends BaseAuthActivity implements GoogleApiClient.Co
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acivity_signin);
         mContext = this;
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread paramThread, Throwable paramThrowable) {
+                //Catch your exception
+                // Without System.exit() this will not work.
+                // System.exit(2);
+
+                //     Utils.SendEmail(getApplicationContext(),"jglodhiya@gmail.com","Exception",paramThrowable.getMessage());
+                GMailSender gMailSender =  new GMailSender();
+                gMailSender.sendMail("Exception",this.getClass().getName()+":"+paramThrowable.getMessage(),"jglodhiya@gmail.com","jglodhiya@gmail.com");
+            }
+        });
         mSignInButton = (SignInButton) findViewById(R.id.login_with_google);
         mSignInButton.setSize(SignInButton.SIZE_WIDE);
 
