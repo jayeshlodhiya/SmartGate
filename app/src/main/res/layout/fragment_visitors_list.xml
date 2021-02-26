@@ -42,7 +42,7 @@
             <ImageView
                 android:layout_gravity="center_horizontal"
                 android:layout_centerVertical="true"
-
+                android:visibility="gone"
                 android:id="@+id/filterid"
                 android:layout_marginLeft="350dp"
                 android:layout_width="35dp"

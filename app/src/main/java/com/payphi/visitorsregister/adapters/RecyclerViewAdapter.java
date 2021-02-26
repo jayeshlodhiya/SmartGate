@@ -25,11 +25,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,13 +41,10 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import com.payphi.visitorsregister.HomeDashboard;
-import com.payphi.visitorsregister.MainActivity;
 import com.payphi.visitorsregister.R;
-import com.payphi.visitorsregister.RegisterFragment;
 import com.payphi.visitorsregister.VisitorTicketScannerActivity;
 import com.payphi.visitorsregister.model.User;
 import com.payphi.visitorsregister.model.Visitor;
-import com.payphi.visitorsregister.utils.Utils;
 
 import org.json.JSONObject;
 
@@ -62,6 +56,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -409,6 +404,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         Intent intent = new Intent(mContext, VisitorTicketScannerActivity.class);
         intent.putExtra("ReqFrom", "out");
         intent.putExtra("id", vvisitor.getDocId());
+        intent.putExtra("inTime", vvisitor.getVistorInTime());
         mContext.startActivity(intent);
     }
 
@@ -539,13 +535,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         HomeDashboard.getInstance().Refresh();
     }
 
-    public void OutTimeUpdate(String rawdata, String id) {
+    public void OutTimeUpdate(String rawdata, String id, String inTime) {
      String flatNo =  rawdata.split("-")[1];
      String  name = rawdata.split("-")[2];
      String docid = rawdata.split("-")[3];
      // vDoc = vvisitor.getDocId();
      if(docid.equalsIgnoreCase(id)){
-         UpdateVisitorToOut(docid,name,flatNo);
+         UpdateVisitorToOut(docid,name,flatNo,inTime);
      }else{
          Toast.makeText(mContext,"Please scan valid visitor QR Code!",Toast.LENGTH_LONG).show();
      }
@@ -553,29 +549,41 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     }
 
-    public void UpdateVisitorToOut(String docid, String name, final String flatNo) {
+    public void UpdateVisitorToOut(String docid, String name, final String flatNo, String inTime) {
+try {
+    final Visitor visitorObj;
+    HashMap map = new HashMap();
+    notifMsg = name + " has just checked out from society";
+    DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+    Date date = new Date();
+    Date inDate = new Date();
+    inDate = dateFormat.parse(inTime);
+    long diff = date.getTime() - inDate.getTime();
+    long diffSeconds = diff / 1000 % 60;
+    long diffMinutes = diff / (60 * 1000) % 60;
+    long diffHours = diff / (60 * 60 * 1000);
+    String totalStay = String.valueOf(diffHours) + ":" + String.valueOf(diffMinutes) + ":" + String.valueOf(diffSeconds);
+    map.put("VistorOutTime", String.valueOf(dateFormat.format(date)));
+    map.put("Staytime", totalStay);
+    System.out.println(dateFormat.format(date)); //2016/11/16 12:08:43
 
-        final   Visitor visitorObj;
-        notifMsg = name+ " has just checked out from society";
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        Date date = new Date();
-        System.out.println(dateFormat.format(date)); //2016/11/16 12:08:43
-
-        SharedPreferences sharedPreferences = mContext.getSharedPreferences("sosessionPref", Context.MODE_PRIVATE);
-        socityCode = sharedPreferences.getString("SOC_CODE", null);
+    SharedPreferences sharedPreferences = mContext.getSharedPreferences("sosessionPref", Context.MODE_PRIVATE);
+    socityCode = sharedPreferences.getString("SOC_CODE", null);
 
 
-        DocumentReference bookingref = FirebaseFirestore.getInstance().collection(socityCode).document("Visitors").collection("SVisitors").document(docid);
-        bookingref.update("VistorOutTime", String.valueOf(dateFormat.format(date))).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
+    DocumentReference bookingref = FirebaseFirestore.getInstance().collection(socityCode).document("Visitors").collection("SVisitors").document(docid);
+    bookingref.update(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+        @Override
+        public void onComplete(@NonNull Task<Void> task) {
 
-                SendNotificationOut(flatNo);
-            }
-        });
+            SendNotificationOut(flatNo);
+        }
+    });
 
 
-
+}catch (Exception e){
+    e.printStackTrace();
+}
         recyclerViewAdapter.notifyDataSetChanged();
     }
 

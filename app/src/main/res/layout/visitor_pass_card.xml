@@ -34,7 +34,7 @@
 
 
             <RelativeLayout
-                android:layout_height="190dp"
+                android:layout_height="200dp"
 
                 android:orientation="vertical"
 
@@ -47,7 +47,7 @@
                     android:id="@+id/outqrid"
                     android:layout_alignParentRight="true"
                     android:layout_width="40dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="25dp"
                     android:background="@drawable/outqr"
                     android:layout_height="40dp">
 
@@ -57,7 +57,7 @@
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:layout_marginTop="57dp"
+                    android:layout_marginTop="30dp"
                     android:id="@+id/namelinearLayout"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentLeft="true"
@@ -220,6 +220,45 @@
                             android:layout_marginLeft="5dp" />
 
                     </LinearLayout>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/totalstayLinerarlayout1"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_below="@+id/outtimeLinerarlayout1"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true">
+
+
+                    <LinearLayout
+                        android:id="@+id/flatLinerarlayout2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/mobileLinerarlayout"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Time : "
+
+                            />
+
+                        <TextView
+                            android:id="@+id/totalTimeId"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textSize="15dp"
+                            android:textStyle="italic"
+                            android:layout_marginLeft="5dp" />
+
+                    </LinearLayout>
+
                 </LinearLayout>
 
             </RelativeLayout>
@@ -273,8 +312,9 @@
             </RelativeLayout>
 
             <View
+                android:visibility="gone"
                 android:layout_width="fill_parent"
-                android:layout_height="2dp"
+                android:layout_height="1dp"
                 android:layout_below="@+id/relativeLayout"
                 android:background="#c0c0c0"
                 android:id="@+id/view2" />
@@ -305,7 +345,7 @@
                     android:background="@color/green_new"
                     android:id="@+id/vintimeId"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:text="10-03-2018"
                     android:textSize="13dp"
                     android:textColor="@color/white"
@@ -318,7 +358,7 @@
                     android:background="@color/red_error"
                     android:id="@+id/vouttimeId"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:textSize="13dp"
                     android:textColor="@color/white"
                     android:textStyle="italic"
@@ -329,7 +369,7 @@
                 <TextView
                     android:background="@color/red_error"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:text="OUT : "
                     android:textColor="@color/white"
                     android:id="@+id/textView3"

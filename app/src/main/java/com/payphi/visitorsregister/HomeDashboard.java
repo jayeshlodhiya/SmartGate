@@ -311,6 +311,13 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
                 startActivity(intent);
             }
         });
+        mProfileImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), User_Profile.class);
+                startActivity(intent);
+            }
+        });
 
         //initNavigationDrawer();
      /*   try {
@@ -1352,7 +1359,7 @@ public class HomeDashboard extends AppCompatActivity implements NavigationView.O
     }
 
     public void OpenReports(View view) {
-        Intent intent = new Intent(this, CreatePoll.class);
+        Intent intent = new Intent(this, ComingSoonActivity.class);
         startActivity(intent);
         //Intent intent = new Intent(this, ComingSoonActivity.class);
         //startActivity(intent);

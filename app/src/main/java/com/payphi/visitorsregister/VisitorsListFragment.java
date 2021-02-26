@@ -647,35 +647,47 @@ public class VisitorsListFragment extends Fragment {
 
 
     private void UpdateVisitorToOut(int position) {
-
-     final   Visitor visitorObj;
-        System.out.println("Pos==" + position);
-        if(temp!=null && temp.size()>0){
-            visitorObj = temp.get(position);
-        }else{
-            visitorObj = visitorsList.get(position);
-        }
-
-
+try {
+    final Visitor visitorObj;
+    System.out.println("Pos==" + position);
+    if (temp != null && temp.size() > 0) {
+        visitorObj = temp.get(position);
+    } else {
+        visitorObj = visitorsList.get(position);
+    }
 
 
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        Date date = new Date();
-        System.out.println(dateFormat.format(date)); //2016/11/16 12:08:43
-        if ((visitorObj.getVistorOutTime().equals("") && !visitorObj.getVistorInTime().equals("") ) && (user.getRole().equals("S"))) {
+    DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
-            DocumentReference bookingref = FirebaseFirestore.getInstance().collection(socityCode).document("Visitors").collection("SVisitors").document(visitorObj.getDocId());
-            bookingref.update("VistorOutTime", String.valueOf(dateFormat.format(date))).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    System.out.println("DeviceId Updated");
-                    SendNotification(visitorObj);
-                    RefreshMainActivity();
-                    Refresh();
-                }
-            });
+    HashMap map = new HashMap();
+    Date date = new Date();
+    Date inDate = new Date();
+    inDate = dateFormat.parse(visitorObj.getVistorInTime());
+    long diff = date.getTime() - inDate.getTime();
+    long diffSeconds = diff / 1000 % 60;
+    long diffMinutes = diff / (60 * 1000) % 60;
+    long diffHours = diff / (60 * 60 * 1000);
+    String totalStay =  String.valueOf(diffHours)+":"+String.valueOf(diffMinutes)+":"+String.valueOf(diffSeconds);
+    map.put("VistorOutTime",String.valueOf(dateFormat.format(date)));
+    map.put("Staytime",totalStay);
+    System.out.println(dateFormat.format(date)); //2016/11/16 12:08:43
+    if ((visitorObj.getVistorOutTime().equals("") && !visitorObj.getVistorInTime().equals("")) && (user.getRole().equals("S"))) {
 
-        }
+        DocumentReference bookingref = FirebaseFirestore.getInstance().collection(socityCode).document("Visitors").collection("SVisitors").document(visitorObj.getDocId());
+        bookingref.update(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                System.out.println("DeviceId Updated");
+                SendNotification(visitorObj);
+                RefreshMainActivity();
+                Refresh();
+            }
+        });
+
+    }
+}catch (Exception e){
+
+}
         adapter.notifyDataSetChanged();
     }
 
@@ -779,6 +791,8 @@ public class VisitorsListFragment extends Fragment {
         visitor.setVistorOutTime(String.valueOf(documentSnapshot.get("VistorOutTime")));
         visitor.setMobileVeriy(documentSnapshot.getString("MobileVerify"));
         visitor.setUniqueNumber(documentSnapshot.getString("UniqueNumber"));
+        visitor.setVisitorCatagory(documentSnapshot.getString("VisitorCatagory"));
+        visitor.setTotalVisitorStay(documentSnapshot.getString("Staytime"));
        // visitor.setVisitorsFaceFeatures((HashMap<String,String>) documentSnapshot.get("Features"));
         visitor.setVisitorApprove(documentSnapshot.getString("VisitorApprove"));
         visitor.setVisitPurpose(documentSnapshot.getString("Purpose"));

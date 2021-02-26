@@ -117,7 +117,7 @@ public class VisitorTicketScannerActivity extends Activity implements ZXingScann
                         // UpdateExpectedVisitor();
                         TakePic();
                     }else if(!in.equalsIgnoreCase("") && out.equalsIgnoreCase("")){
-                        RecyclerViewAdapter.getInstance().UpdateVisitorToOut(docId,name,flatNo);
+                        RecyclerViewAdapter.getInstance().UpdateVisitorToOut(docId,name,flatNo,in);
                         finish();
                     }else {
                         Toast.makeText(getApplicationContext(),"Used Number !!",Toast.LENGTH_LONG).show();
@@ -291,7 +291,7 @@ public class VisitorTicketScannerActivity extends Activity implements ZXingScann
                 RecyclerViewAdapter.getInstance().CheckValidity(rawResult.toString());
             }else if(reqfrom != null && reqfrom.equals("out")){
                 if (getIntent().getSerializableExtra("id") != null) {
-                    RecyclerViewAdapter.getInstance().OutTimeUpdate(rawResult.toString(),getIntent().getSerializableExtra("id").toString());
+                    RecyclerViewAdapter.getInstance().OutTimeUpdate(rawResult.toString(),getIntent().getSerializableExtra("id").toString(),getIntent().getSerializableExtra("inTime").toString());
                 }
 
             } else {

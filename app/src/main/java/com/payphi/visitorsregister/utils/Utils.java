@@ -182,7 +182,8 @@ public class Utils extends AppCompatActivity {
         HSSFCell head9 = headingRow.createCell(8);
         head9.setCellValue("Status");
 
-
+        HSSFCell head10 = headingRow.createCell(9);
+        head10.setCellValue("Stay Time");
 
         for (Visitor visitorModel : visitorsLists) {
             HSSFRow rowA = firstSheet.createRow(rowNum);
@@ -224,7 +225,9 @@ public class Utils extends AppCompatActivity {
             String token=visitorModel.getVisitorApprove();
             cellI.setCellValue(token);
 
-
+            HSSFCell cellJ = rowA.createCell(9);
+            String totalTime=visitorModel.getTotalVisitorStay();
+            cellJ.setCellValue(totalTime);
 
 
             rowNum =rowNum+1;

@@ -33,6 +33,25 @@ public class Visitor {
     private String ageL;
     private String ageH;
     private String uniqueNumber;
+    private String visitorCatagory;
+    private String totalVisitorStay;
+
+
+    public String getVisitorCatagory() {
+        return visitorCatagory;
+    }
+
+    public void setVisitorCatagory(String visitorCatagory) {
+        this.visitorCatagory = visitorCatagory;
+    }
+
+    public String getTotalVisitorStay() {
+        return totalVisitorStay;
+    }
+
+    public void setTotalVisitorStay(String totalVisitorStay) {
+        this.totalVisitorStay = totalVisitorStay;
+    }
 
     public String getUniqueNumber() {
         return uniqueNumber;

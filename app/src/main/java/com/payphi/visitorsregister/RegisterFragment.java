@@ -60,6 +60,7 @@ import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
+import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.microsoft.projectoxford.face.contract.Accessory;
 import com.microsoft.projectoxford.face.contract.Emotion;
 import com.microsoft.projectoxford.face.contract.FacialHair;
@@ -230,6 +231,7 @@ public class RegisterFragment extends Fragment {
     Button registerbutton, signButton;
     ImageButton camerabutton;
     ImageView verfyIcon;
+    String selectedVisitorCatagory="";
     String vmStatus = "";
     public static RegisterFragment registerFragment;
     private static final String PREF_NAME = "sosessionPref";
@@ -237,8 +239,11 @@ public class RegisterFragment extends Fragment {
     String otp = "";
     SharedPreferences sharedPreferences;
     User user;
+    TextView insT;
     Bitmap imageBitmap;
     String sound;
+    MaterialSpinner spinner;
+    ArrayList visitorTypeList = new ArrayList();
     public static boolean approveFlag;
     public static boolean rejectFlag;
     ArrayList<String> flatMemberList = new ArrayList<>();
@@ -317,6 +322,16 @@ public class RegisterFragment extends Fragment {
         address = (EditText) view.findViewById(R.id.addressId);
         vehicle = (EditText) view.findViewById(R.id.vehicalId);
         openMembers = (ImageView) view.findViewById(R.id.openMemberId);
+        spinner = (MaterialSpinner)  view.findViewById(R.id.spinner);
+        insT = (TextView) view.findViewById(R.id.instId);
+        spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
+
+            @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
+                //Snackbar.make(view, "Clicked " + item, Snackbar.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(),"Clicked " + item,Toast.LENGTH_LONG).show();
+                selectedVisitorCatagory = item;
+            }
+        });
 
       /*  verfyIcon = (ImageView) view.findViewById(R.id.verifyiconId);
         verfyIcon.setVisibility(View.INVISIBLE);*/
@@ -328,7 +343,16 @@ public class RegisterFragment extends Fragment {
         camerabutton = (ImageButton) view.findViewById(R.id.takePic);
         signButton = (Button) view.findViewById(R.id.button_sign);
         vimg = (ImageView) view.findViewById(R.id.imgId);
-        ;
+        visitorTypeList = new ArrayList();
+        visitorTypeList.add("Select Visitor Catagory");
+        visitorTypeList.add("Family Visit");
+        visitorTypeList.add("Friend Visit");
+        visitorTypeList.add("Delivery Visit");
+        visitorTypeList.add("Business Visit");
+        visitorTypeList.add("Other");
+        selectedVisitorCatagory = "Select Visitor Catagory";
+        spinner.setItems(visitorTypeList);
+        spinner.setSelectedIndex(0);
         vmStatus = "N";
         GetUserData();
 
@@ -800,6 +824,7 @@ public class RegisterFragment extends Fragment {
                     }
                 }, 2000);   //5 seconds
                 vimg.setImageBitmap(imageBitmap);
+                insT.setText("");
                 encodeBitmapAndSaveToFirebase(imageBitmap);
 
             } catch (Exception e) {
@@ -862,7 +887,10 @@ public class RegisterFragment extends Fragment {
         } else if (imageEncoded == null || imageEncoded.equals("")) {
             Toast.makeText(getContext(), "Please take Pic", Toast.LENGTH_LONG).show();
             return;
-        } else {
+        }  else if( selectedVisitorCatagory.equalsIgnoreCase("Select Visitor Catagory")){
+            Toast.makeText(getContext(), "Please Select Visitor's Catagory", Toast.LENGTH_LONG).show();
+            return;
+        }else {
             vName = evname.getText().toString();
             vmobileNo = evmobileNo.getText().toString();
             flatNo = eflatNo.getText().toString();
@@ -933,6 +961,8 @@ public class RegisterFragment extends Fragment {
         visitorMap.put("AgeL","");
         visitorMap.put("AgeU","");
         visitorMap.put("UniqueNumber",String.valueOf(100000 + rnd.nextInt(900000)));
+        visitorMap.put("VisitorCatagory",selectedVisitorCatagory);
+        visitorMap.put("Staytime","");
         docId = bookingref.getId();
         visitorMap.put("DocId", docId);
 
@@ -946,7 +976,7 @@ public class RegisterFragment extends Fragment {
                 TakeDeviceIdByFlatNoOrName();
                 ShowWaitingPopup();
                 //GetVisitorFeatures();
-
+                visitorTypeList.removeAll(visitorTypeList);
                 //getImageStringFromVisitNumber(docId);
                 paydialog.dismiss();
                 //LocalNotification();
@@ -1192,6 +1222,10 @@ public class RegisterFragment extends Fragment {
         if(HomeDashboard.getInstance()!=null){
             HomeDashboard.getInstance().Refresh();
         }
+        if(visitorTypeList.size()>0){
+            visitorTypeList.removeAll(visitorTypeList);
+        }
+
 
 
         registerFragment = null;

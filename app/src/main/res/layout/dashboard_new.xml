@@ -315,8 +315,9 @@
                     android:textColor="#ffffff"
                     android:fontFamily="@font/mo_re"
                     android:layout_marginTop="32dp"
-                    android:layout_marginLeft="120dp"
-
+                    android:layout_marginLeft="125dp"
+                    android:gravity="center"
+                    android:layout_centerHorizontal="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
@@ -694,7 +695,7 @@
                     app:cardElevation="6dp">
 
                     <LinearLayout
-                        android:onClick="OpenReports"
+                        android:onClick="OpenMemberList"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal|center_vertical"

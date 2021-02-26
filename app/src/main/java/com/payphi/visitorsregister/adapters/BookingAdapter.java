@@ -66,7 +66,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.MyViewHo
 
     //
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, count, dist, stat, datetime, visitorName, visitorId, whomtomeet, flatnumber, visitorMobile, vintimeId, visitorNumnber, visitorout, timer,visitorStat;
+        public TextView title, count, dist, stat, datetime, visitorName, visitorId, whomtomeet, flatnumber, visitorMobile, vintimeId, visitorNumnber, visitorout, timer,visitorStat,totalTime;
 
         public ImageView thumbnail, overflow, statusImage, cancelicon, callImage, visitorStatus;
         public ImageView mProfileImageView, verifyIcon,outqr;
@@ -95,6 +95,8 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.MyViewHo
             visitorStat = (TextView) view.findViewById(R.id.statusId);
             cardView = (CardView) view.findViewById(R.id.visitorview);
             outqr = (ImageView) view.findViewById(R.id.outqrid);
+            totalTime = (TextView) view.findViewById(R.id.totalTimeId);
+
             GetUserData();
         }
     }
@@ -192,6 +194,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.MyViewHo
         holder.visitorStat.setText(visitor.getVisitorApprove());
 //        holder.whomtomeet.setText(visitor.getWhomTomeet());
         holder.flatnumber.setText(visitor.getFlatNo());
+        holder.totalTime.setText(visitor.getTotalVisitorStay());
         holder.callbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -179,13 +179,20 @@
             android:inputType="text"
             android:textSize="17sp"
             android:ems="10"></EditText>
+        <com.jaredrummler.materialspinner.MaterialSpinner
+            android:id="@+id/spinner"
+            android:layout_margin="10dp"
+            android:layout_below="@+id/vehicalId"
+            android:background="@drawable/rounded_edittext"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
 
 
         <ImageView
             android:id="@+id/imgId"
             android:layout_width="200dp"
             android:layout_height="190dp"
-            android:layout_marginTop="43dp"
+            android:layout_marginTop="77dp"
             android:layout_below="@+id/vehicalId"
             android:layout_centerHorizontal="true" />
 
@@ -221,9 +228,10 @@
 
             android:layout_alignTop="@+id/imgId"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="45dp"
             android:background="@drawable/cameraicon" />
         <TextView
+            android:id="@+id/instId"
             android:layout_below="@+id/takePic"
             android:layout_width="match_parent"
 

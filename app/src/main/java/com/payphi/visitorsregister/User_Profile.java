@@ -107,16 +107,13 @@ public class User_Profile extends AppCompatActivity implements ProgressGenerator
                 ework = pwork.getText().toString();
                 mobileno = mobileNo.getText().toString();
                 flatNo = flatno.getText().toString();
-                if (user.getRole().equals("S")) {
+               /* if (user.getRole().equals("S")) {
                     flatNo = "";
-                }
+                }*/
                 if (ename == null || ename.equals("")) {
                     Toast.makeText(getApplicationContext(), "Please Enter Name", Toast.LENGTH_LONG).show();
                     return;
-                } else if (ework == null || ework.equals("")) {
-                    Toast.makeText(getApplicationContext(), "Please enter Work", Toast.LENGTH_LONG).show();
-                    return;
-                } else if (mobileno == null || mobileno.equals("")) {
+                }  else if (mobileno == null || mobileno.equals("")) {
                     Toast.makeText(getApplicationContext(), "Please Enter Mobile Number", Toast.LENGTH_LONG).show();
                     return;
                 } else if (user.getRole().equals("R")) {
@@ -162,6 +159,7 @@ public class User_Profile extends AppCompatActivity implements ProgressGenerator
         user.setDocId(documentSnapshot.getString("DocId"));
         user.setPhoto(documentSnapshot.getString("Photo"));
         user.setEmail(documentSnapshot.getString("Email"));
+        user.setEmailId(documentSnapshot.getString("Email"));
         user.setWork(documentSnapshot.getString("Work"));
 
         SharedPreferences.Editor prefsEditor = sharedPreferences.edit();
@@ -385,27 +383,25 @@ public class User_Profile extends AppCompatActivity implements ProgressGenerator
         bookingref.update("Name", ename).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                System.out.println("Name saved");
+                //System.out.println("Name saved");
+                Toast.makeText(getApplicationContext(),"Profile Updated!!",Toast.LENGTH_LONG).show();
             }
         });
 
-        bookingref.update("Work", ework).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                System.out.println("work saved");
-            }
-        });
+
 
         bookingref.update("MobileNumber", mobileno).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                System.out.println("mobile no  saved");
+                //System.out.println("mobile no  saved");
+                Toast.makeText(getApplicationContext(),"Profile Updated!!",Toast.LENGTH_LONG).show();
             }
         });
         bookingref.update("FlatNumber", flatNo).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                System.out.println("flat number saved");
+                //System.out.println("flat number saved");
+                Toast.makeText(getApplicationContext(),"Profile Updated!!",Toast.LENGTH_LONG).show();
             }
         });
 
